@@ -5,7 +5,8 @@ import app from './app'
 import { MONGODB_URI } from './util/secrets'
 import logger from './util/logger'
 
-const mongoUrl = MONGODB_URI
+const mongoUrl =
+  'mongodb+srv://dafirm:Adedamola11@cluster0.ana7qip.mongodb.net/ecommerce?retryWrites=true&w=majority'
 
 mongoose
   .connect(mongoUrl)
