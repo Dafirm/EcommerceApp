@@ -5,8 +5,9 @@ import app from './app'
 import { MONGODB_URI } from './util/secrets'
 import logger from './util/logger'
 
+// const mongoUrl = MONGODB_URI
 const mongoUrl =
-  'mongodb+srv://dafirm:Adedamola11@cluster0.ana7qip.mongodb.net/ecommerce?retryWrites=true&w=majority'
+  'mongodb+srv://dafirm:Adedamola11@cluster0.ana7qip.mongodb.net/ecommerce'
 
 mongoose
   .connect(mongoUrl)
@@ -31,7 +32,7 @@ if (process.env.NODE_ENV === 'development') {
 // Start Express server
 app.listen(app.get('port'), () => {
   console.log(
-    '  App is running at http://localhost:%d in %s mode',
+    'App is running at http://localhost:%d in %s mode',
     app.get('port'),
     app.get('env')
   )

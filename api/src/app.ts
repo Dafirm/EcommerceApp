@@ -7,7 +7,9 @@ import cors from 'cors'
 
 import apiErrorHandler from './middlewares/apiErrorHandler'
 import apiContentType from './middlewares/apiContentType'
-import movieRouter from './routers/movie.router'
+import moviesRouter from './routers/movie.router'
+import productsRouter from './routers/product.router'
+import ordersRouter from './routers/order.router'
 
 dotenv.config({ path: '.env' })
 const app = express()
@@ -21,6 +23,7 @@ app.use(
     origin: '*',
   })
 )
+
 app.use(apiContentType)
 app.use(express.json())
 /** using passport also requires to ass session and cookieParser middlewares to express
@@ -42,7 +45,9 @@ app.use(passport.session())
 */
 
 // Set up routers
-app.use('/api/v1/movies', movieRouter)
+app.use('/api/v1/movies', moviesRouter)
+app.use('/api/products', productsRouter)
+app.use('/api/orders', ordersRouter)
 
 // Custom API error handler
 app.use(apiErrorHandler)
