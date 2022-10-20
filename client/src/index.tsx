@@ -3,7 +3,8 @@ import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 
 import reportWebVitals from 'reportWebVitals';
-import App from 'components/App';
+import App from 'App';
+import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import { store } from 'redux/store';
 import 'index.css';
 
@@ -13,7 +14,9 @@ const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      
+        <App />
+  
     </Provider>
   </React.StrictMode>
 );

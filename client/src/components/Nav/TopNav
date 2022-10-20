@@ -1,0 +1,130 @@
+<!-- // import React from "react";
+// import { LinkContainer } from "react-router-bootstrap";
+// import { Navbar, Button, Nav, NavDropdown, Container } from "react-bootstrap";
+// import "./TopNav.css";
+// // import { useDispatch, useAppSelector } from "redux/hooks";
+// import { useDispatch, useSelector } from "react-redux";
+// import { RootState, AppDispatch } from "redux/store";
+// import { MenuItem } from "@mui/material";
+
+
+// const TopNav = () => {
+
+//   // const user = useSelector((state: RootState) => state);
+
+//   const dispatch = useDispatch<AppDispatch>();
+
+//   // function handleLogout() {
+//   //   dispatch(logout());
+//   // }
+
+//   return (
+//     <Navbar bg="primary" expand="lg" variant="dark">
+//       <Container>
+//         <LinkContainer to="/">
+//           <Navbar.Brand>DafirmMusic Store</Navbar.Brand>
+//         </LinkContainer>
+//         <Navbar.Toggle aria-controls="basic-navbar-nav" />
+//         <Navbar.Collapse id="basic-navbar-nav">
+//           <Nav className="ms-auto">
+//             {/* if no user */}
+//             {true && (
+//               <LinkContainer to="login">
+//                 <Nav.Link>Login</Nav.Link>
+//               </LinkContainer>
+//             )}
+
+//             {true && (
+//               <NavDropdown
+//                 title={`${"ayanfeoyeniyi@gmail.com"}`}
+//                 id="basic-nav-dropdown"
+//               >
+//                 {/* {user.isAdmin && (
+//                   <>
+//                     <LinkContainer to="/dashboard">
+//                       <NavDropdown.Item>Dashboard</NavDropdown.Item>
+//                     </LinkContainer>
+//                     <LinkContainer to="/new-product">
+//                       <NavDropdown.Item>Create Product</NavDropdown.Item>
+//                     </LinkContainer>
+//                   </>
+//                 )}
+
+//                 {!user.isAdmin && (
+//                   <>
+//                     <LinkContainer to="/cart">
+//                       <NavDropdown.Item>Cart</NavDropdown.Item>
+//                     </LinkContainer>
+//                     <LinkContainer to="/orders">
+//                       <NavDropdown.Item>My order</NavDropdown.Item>
+//                     </LinkContainer>
+//                   </>
+//                 )} */}
+
+//                 <NavDropdown.Divider />
+//                 <Button
+//                   variant="danger"
+//                   // onClick={handleLogout}
+//                   className="logout-btn"
+//                 >
+//                   Logout
+//                 </Button>
+//               </NavDropdown>
+//             )}
+//           </Nav>
+//         </Navbar.Collapse>
+//       </Container>
+//     </Navbar>
+//   );
+// };
+
+// export default TopNav;
+
+// Header.js
+import { useEffect } from 'react'
+import {  useSelector } from 'react-redux'
+import { NavLink } from 'react-router-dom'
+import { useAppDispatch } from 'redux/hooks'
+import { RootState } from 'redux/store'
+import { getUserDetails } from '../../redux/Action/userAction'
+import '../styles/header.css'
+
+const Header = () => {
+  const { userInfo, userToken } = useSelector((state: RootState) => state.user)
+  const dispatch = useAppDispatch()
+
+  // automatically authenticate user if token is found
+  useEffect(() => {
+    if (userToken) {
+      dispatch(getUserDetails())
+    }
+  }, [userToken, dispatch])
+
+  return (
+    <header>
+      <div className='header-status'>
+        <span>
+          {userInfo ? `Logged in as ${userInfo.email}` : "You're not logged in"}
+        </span>
+        <div className='cta'>
+          {userInfo ? (
+            <button className='button'>
+              Logout
+            </button>
+          ) : (
+            <NavLink className='button' to='/login'>
+              Login
+            </NavLink>
+          )}
+        </div>
+      </div>
+      <nav className='container navigation'>
+        <NavLink to='/'>Home</NavLink>
+        <NavLink to='/login'>Login</NavLink>
+        <NavLink to='/register'>Register</NavLink>
+        <NavLink to='/user-profile'>Profile</NavLink>
+      </nav>
+    </header>
+  )
+}
+export default Header -->

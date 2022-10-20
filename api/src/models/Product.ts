@@ -1,73 +1,39 @@
 import mongoose, { Document } from 'mongoose'
 
 export type ProductDocument = Document & {
-  name: string
+  title: string
+  images: string
   description: string
-  quantity: number
+  categories: string
+  size: string
+  price: string
+  creator:string
+  shopCount: {
+    type: number
+  }
+  
 }
 
-const reviewSchema = new mongoose.Schema({
-  name: {
+const productSchema = new mongoose.Schema({
+  title: {
     type: String,
-    require: true,
+    index: true,
+    required: true,
   },
-  rating: {
-    type: Number,
-    require: true,
-  },
-  comment: {
+  images: {
     type: String,
-    require: true,
+    required: true,
   },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    require: true,
-    ref: 'User',
+  
+  categories: {
+    type:String,
+    required: true,
   },
+
+  size: String,
+  creator: String,
+
+  price: String,
 })
-
-const productSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      require: true,
-    },
-    image: {
-      type: String,
-      require: true,
-    },
-
-    description: {
-      type: String,
-      require: true,
-    },
-    reviews: [reviewSchema],
-    rating: {
-      type: Number,
-      require: true,
-      default: 0,
-    },
-    numReviews: {
-      type: Number,
-      require: true,
-      default: 0,
-    },
-    price: {
-      type: Number,
-      rerquire: true,
-      default: 0,
-    },
-    countInStock: {
-      type: Number,
-      require: true,
-      default: 0,
-    },
-  },
-
-  {
-    timestamps: true,
-  }
-)
-const Product = mongoose.model('User', productSchema)
 
 export default mongoose.model<ProductDocument>('Product', productSchema)

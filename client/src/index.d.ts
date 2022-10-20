@@ -1,0 +1,10 @@
+export {
+  
+};
+
+declare global {
+  interface Window {
+    cloudinary: any; // whatever type you want to give. (any,number,float etc)
+    gtag: (...args: any[]) => void;
+  }
+}

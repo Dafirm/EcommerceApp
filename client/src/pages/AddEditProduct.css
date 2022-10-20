@@ -1,0 +1,39 @@
+.images-preview-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100px, 100%), 1fr));
+    gap: 10px;
+    margin-top: 90px;
+}
+
+.image-preview {
+    width: 100px;
+    display: inline-block;
+    position: relative;
+}
+
+.image-preview img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.image-preview i,
+.remove-img-spinner {
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.image-preview i:hover {
+    color: orange;
+}
+
+.new-product__image--container {
+    background-image: url(https://p.turbosquid.com/ts-thumb/ON/euCeUr/rWgiD1Ep/musicalinstrumentscollection63dsmodel000/jpg/1577458116/600x600/fit_q87/76bbcdbaca706ee7fb1d013b8f3a996e1124a231/musicalinstrumentscollection63dsmodel000.jpg);
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+}
