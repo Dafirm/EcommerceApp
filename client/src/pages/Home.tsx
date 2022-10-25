@@ -1,57 +1,49 @@
 
 
 import {
-  MDBCard,
-  MDBCardBody,
-  MDBCardTitle,
-  MDBCardText,
-  MDBBtn,
+  
+  MDBTypography,
 } from "mdb-react-ui-kit";
 // }
 import CardHeader from '../components/CardHeader'
-import React, { useEffect } from "react";
-import { MDBCol, MDBContainer, MDBRow, MDBTypography } from "mdb-react-ui-kit";
+import  { useEffect } from "react";
+
 
 import { findAll } from "../redux/slices/productSlice";
 import CardProduct from "../components/CardProduct";
 import Spinner from "../components/Spinner";
 import { RootState } from "../redux/store";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { Card } from "react-bootstrap";
+
 
 const Home = () => {
-  const { items, loading } = useAppSelector((state:RootState) => ({ ...state.product}));
+  const { items, loading, searchedterms, filteredItems } = useAppSelector((state:RootState) => ({ ...state.product}));
   const dispatch = useAppDispatch();
-
+  
   useEffect(() => {
     dispatch(findAll());
-    console.log('items:', items)
+    
   }, [dispatch]);
 
-  if (loading) {
+  if (loading) 
     return <Spinner  />;
-  }
+  
 
 
   return (
     <div className="Home__CardHeader">
       <CardHeader />
-      <div>
-        <MDBCard>
-          <MDBCardBody>
-            {items.length === 0 && (
-              <MDBCardTitle>No Product Found!!!</MDBCardTitle>
-            )}
-            <MDBCardText>You can continue shopping</MDBCardText>
-            <MDBBtn href="/">Homepage</MDBBtn>
-          </MDBCardBody>
-        </MDBCard>
-      </div>
 
-      <div>
-        {items &&
-          items.map((item:any, index) => <CardProduct key={item.id} {...item}/>)}
-           
+      {filteredItems.length === 0 && searchedterms.length !== 0 && (
+        <MDBTypography className="text-center mb-0" tag="h2">
+          No Product Found!!!
+        </MDBTypography>
+      )}
+
+      <div style={{ display: "flex", flexWrap: "wrap" }}>
+        {items && searchedterms.length === 0
+          ? items.map((item: any) => <CardProduct key={item.id} {...item} />)
+          : filteredItems.map((item: any) => <CardProduct key={item.id} {...item} />)}
       </div>
     </div>
   );

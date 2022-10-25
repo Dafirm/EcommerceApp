@@ -13,7 +13,10 @@ import {
 import { setLogout } from "../redux/slices/authSlice";
 import { RootState } from "../redux/store";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import LibraryMusicOutlinedIcon from "@mui/icons-material/LibraryMusicOutlined";
+import SearchInput from './SearchInput'
+import { Link } from "react-router-dom";
+
+
 
 
 const Header = () => {
@@ -24,9 +27,13 @@ const Header = () => {
 
  
   const { user } = useAppSelector((state:RootState) => ({ ...state.auth }));
+  
  const handleLogout = (e:any) => {
   e.preventDefault()
     dispatch(setLogout(user));
+
+  
+    
   };
   return (
     <MDBNavbar fixed="top" expand="lg" style={{ backgroundColor: "#000F03" }}>
@@ -46,7 +53,7 @@ const Header = () => {
         >
           <MDBIcon icon="bars" fas />
         </MDBNavbarToggler>
-
+        <SearchInput />
         <MDBCollapse show={show} navbar>
           <MDBNavbarNav right fullWidth={false} className="mb-2 mb-lg-0">
             <MDBNavbarItem>
@@ -87,7 +94,7 @@ const Header = () => {
               </MDBNavbarLink>
             </MDBNavbarItem>
 
-            {user ? (
+            {Object.keys(user).length > 0 ? (
               <>
                 <MDBNavbarItem>
                   <MDBNavbarLink href="/login">
@@ -117,11 +124,21 @@ const Header = () => {
                     </p>
                   </MDBNavbarLink>
                 </MDBNavbarItem>
+                <MDBNavbarItem>
+                  <MDBNavbarLink>
+                    <Link to="/checkout-page" style={{ color :"white" }}>
+                      cart
+                    </Link>
+                    
+                        {/* <ShoppingCartIcon /> */}
+                    
+                  
+                  </MDBNavbarLink>
+                </MDBNavbarItem>
               </>
             )}
           </MDBNavbarNav>
         </MDBCollapse>
-    
       </MDBContainer>
     </MDBNavbar>
   );
@@ -132,42 +149,3 @@ export default Header;
 
 
 
-
-
-// import React from "react";
-// import { Grid, MenuItem } from "@mui/material";
-
-// import { ThemeContext } from "../App";
-// import DropDown from "./DropDown";
-
-// const Header = () => {
-//   const { setTheme } = React.useContext(ThemeContext);
-//   const menuItems = [
-//     { label: "Dark", action: () => setTheme("dark") },
-//     { label: "Light", action: () => setTheme("light") },
-//     { label: "Orange", action: () => setTheme("orange") },
-//   ];
-//   return (
-//     <header style={{ width: "100%" }}>
-//       <Grid
-//         container
-//         spacing={6}
-//         columns={12}
-//         sx={{ maxWidth: "95%", margin: "0 auto" }}
-//       >
-//         <Grid container item sm={12} sx={{ justifyContent: "flex-end" }}>
-//           <DropDown>
-//             {menuItems.map((item) => (
-//               <MenuItem key={item.label} onClick={item.action}>
-//                 {item.label}
-//               </MenuItem>
-//             ))}
-//           </DropDown>
-//         </Grid>
-//       </Grid>
-//     </header>
-//   );
-// };
-// export default Header;
-
-//

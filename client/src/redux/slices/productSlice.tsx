@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import { NavigateFunction } from "react-router-dom";
 import * as api from "../api";
 
@@ -101,12 +101,35 @@ const productSlice = createSlice({
     item: {},
     items: [],
     userProducts: [],
+    filteredItems: [],
+    searchedterms:"",
     error: "",
     loading: false,
     _id: "",
   },
 
-  reducers: {},
+  reducers: {
+    handleSearch: (state, action) => {
+      const searchBy = action.payload.toLowerCase();
+      state.searchedterms = searchBy
+      const searchedProducts = current(state).items.filter(
+        (item: any, index: number) => {
+          if (index > 3) {
+            const title = item.title.toLowerCase();
+
+            if (title.startsWith(searchBy)) {
+              // console.log(title, searchBy);
+              return item;
+            }
+            // return false;
+          }
+        }
+      );
+
+      state.filteredItems = searchedProducts;
+      console.log('check:',current(state).filteredItems);
+    },
+  },
   extraReducers(builder) {
     builder.addCase(createProduct.pending, (state, action) => {
       state.loading = true;
@@ -201,4 +224,5 @@ const productSlice = createSlice({
     });
   },
 });
+export const { handleSearch } = productSlice.actions;
 export default productSlice.reducer;

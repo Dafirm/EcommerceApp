@@ -1,0 +1,21 @@
+input {
+    padding: 10px 25px;
+    color: #fff;
+    border-radius: 5px;
+    width: 300px;
+    font-size: 15px;
+    border-color: #fff;
+    align-items: center;
+    
+  background-color: transparent;
+
+    
+}
+@media only screen and (max-width: 768px) {
+
+       .input{
+       display: -moz-grid-group;
+      width: 300px;
+    }
+  
+  }

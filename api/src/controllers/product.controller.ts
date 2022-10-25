@@ -112,24 +112,7 @@ export const updateProduct = async (req:Request, res:Response) => {
     }
   }
 }
-// export const updateProduct = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   try {
-//     const update = req.body
-//     const productId = req.params.productId
-//     const updatedProduct = await productService.update(productId, update)
-//     res.status(201).json(updatedProduct)
-//   } catch (error) {
-//     if (error instanceof Error && error.name == 'ValidationError') {
-//       next(new BadRequestError('Invalid Request', 400, error))
-//     } else {
-//       next(error)
-//     }
-//   }
-// }
+
 
 // DELETE /products/:productId
 export const deleteProduct = async (

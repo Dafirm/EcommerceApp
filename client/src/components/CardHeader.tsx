@@ -6,6 +6,7 @@ import {
   MDBCardOverlay,
   MDBCardImage,
 } from "mdb-react-ui-kit";
+import './CardHeader.css'
 
 export default function CardHeader() {
   return (
@@ -17,11 +18,28 @@ export default function CardHeader() {
       />
       <MDBCardOverlay>
         <MDBCardTitle></MDBCardTitle>
-        <MDBCardText>
-          “The best cure for a ton of abandoned shopping carts? Four words: Free
-          shipping. Free returns.”
+        <MDBCardText
+          className="text_Header"
+          style={{
+            marginTop: "4rem",
+            marginLeft: "60rem",
+            objectFit: "contain",
+          }}
+        >
+          “The best cure for a ton of abandoned shopping carts? <br />
+          Four words: Free shipping. <br />
+          Free returns. <br /> Make your orders with zero worries
         </MDBCardText>
-        <MDBCardText>Continue shopping!!!</MDBCardText>
+        <MDBCardText
+          className="text_Header"
+           style={{
+            marginTop: "4rem",
+            marginLeft: "60rem",
+            textDecoration: "underline",
+          }}
+        >
+          Enjoy the world of MUSIC
+        </MDBCardText>
       </MDBCardOverlay>
     </MDBCard>
   );

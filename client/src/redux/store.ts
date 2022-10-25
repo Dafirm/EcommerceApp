@@ -2,15 +2,17 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import productReducer from "../redux/slices/productSlice"
 import userReducer from "./slices/userSlice";
 import AuthReducer from "./slices/authSlice";
+import cartReducer from "./slices/cartSlice";
+
+
 export const store = configureStore({
   reducer: {
-    
     auth: AuthReducer,
     userState: userReducer,
     product: productReducer,
+    cart: cartReducer,
   },
   devTools: process.env.NODE_ENV === "development",
-  
 });
 
 

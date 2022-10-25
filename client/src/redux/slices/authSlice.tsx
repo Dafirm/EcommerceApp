@@ -57,7 +57,7 @@ export const googleSignIn = createAsyncThunk(
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    user: null,
+    user: {},
     error: "",
     loading: false,
     result: null,
@@ -68,7 +68,7 @@ const authSlice = createSlice({
     },
     setLogout: (state, action) => {
       localStorage.clear();
-      state.user = null;
+      state.user = {};
     },
   },
   extraReducers(builder) {
@@ -82,7 +82,7 @@ const authSlice = createSlice({
     });
     builder.addCase(login.rejected, (state) => {
       state.loading = false;
-      state.error = "something went wrong";
+      state.error = "Your email or password is incorrect";
     });
     builder.addCase(register.pending, (state, action) => {
       state.loading = true;
@@ -106,7 +106,7 @@ const authSlice = createSlice({
     });
     builder.addCase(googleSignIn.rejected, (state) => {
       state.loading = false;
-      state.error = "Something went wrong";
+      state.error = "Enter a valid email";
     });
   },
 });

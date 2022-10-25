@@ -1,17 +1,13 @@
 
 import {
-  MDBCard,
-  MDBCardTitle,
   MDBCardText,
-  MDBCardBody,
-  MDBCardImage,
-  MDBRow,
-  MDBCol,
-  MDBBtn,
 } from "mdb-react-ui-kit";
-import{ Button, Row, Col }from "react-bootstrap";
-import Card from "react-bootstrap/Card";
-import Image from "react-bootstrap/Image";
+import{ Button, Col, Card }from "react-bootstrap";
+import { addToCart } from "redux/slices/cartSlice";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { RootState } from "../redux/store";
+
+import {StarRatings} from './StarRatings';
 
 type CardProps = {
   images:string
@@ -31,59 +27,68 @@ const CardProduct = ({
   title,
   tags,
   _id,
-  name,
   categories,
   size,
   price,
 }: CardProps) => {
+
+
+    const dispatch = useAppDispatch();
+     const { item, cart }:any = useAppSelector((state: RootState) => state);
+
+    //  cart = dispatch(addToCart(item))
+    //  if (!cart) {
+    //   cart = const newCart:any
+    //  }
+                // const isInCart = cart.items.findById(
+                //   (item:any) => item.title === item.title
+                // )
   return (
-    <Row>
-      <Col md={4} lg={3} className="Products-preview" key='index'>
-        <Card style={{ width: "18rem" }}>
-          <Card.Img variant="top" src={images} alt={title} />
-          <Card.Body>
-            <Card.Title>{title}</Card.Title>
-            <Card.Text>{description}</Card.Text>
-            <Card.Text>Categories: {categories}</Card.Text>
-            <Card.Text>Size: {size}cm</Card.Text>
-            <Card.Text>{price}€</Card.Text>
-            <Button variant="primary">Add to cart</Button>
-          </Card.Body>
-        </Card>
-      </Col>
-    </Row>
+    <Col style={{ flexGrow: "1" }} className="Products-preview" key="index">
+      <Card style={{ width: "25rem" }}>
+        <Card.Img
+          style={{ height: "15rem", objectFit: "contain" }}
+          variant="top"
+          src={images}
+          alt={title}
+        />
+        <Card.Body>
+          <Card.Title>{title}</Card.Title>
+          <Card.Text>{description}</Card.Text>
+          <Card.Text>Categories: {categories}</Card.Text>
+          <Card.Text>Size: {size}cm</Card.Text>
+          <Card.Text>{price}€</Card.Text>
+          <p>Reviews</p>
+
+          <Button
+            style={{ margin: "15px" }}
+            className="col-md-8"
+            variant="primary"
+            onClick={() => dispatch(addToCart(item))}
+          >
+            Add to cart
+          </Button>
+
+          <br />
+
+          <Button
+            style={{ margin: "15px" }}
+            className="col-md-8"
+            variant="primary"
+            href={`/products/${_id}`}
+          >
+            More info
+          </Button>
+          <div style={{ margin: "15px" }} className="col-md-8">
+            <StarRatings />
+          </div>
+        </Card.Body>
+      </Card>
+    </Col>
   );
 };
 
 export default CardProduct
 
 
-{/* <MDBRow className="row-cols-1 row-cols-md-2 g-4">
-        <MDBCol>
-          <MDBCard
-            className="h-100 mt-6 d-sm-flex"
-            style={{ maxWidth: "20rem" }}
-          >
-            <MDBCardImage position="top" src={images} alt={title} fluid />
 
-            <MDBCol md="8">
-              <MDBCardBody>
-                <MDBCardTitle>{title}</MDBCardTitle>
-                <MDBCardText>{description}</MDBCardText>
-                <MDBCardText>
-                  <small className="text-muted">Categories: {categories}</small>
-                </MDBCardText>
-                <MDBCardText>
-                  <small className="text-muted">Size: {size}cm</small>
-                </MDBCardText>
-                <MDBCardText>
-                  <small className="text-muted">{price}€</small>
-                </MDBCardText>
-              </MDBCardBody>
-              <MDBCardBody>
-                <MDBBtn href="#">Add to cart</MDBBtn>
-              </MDBCardBody>
-            </MDBCol>
-          </MDBCard>
-        </MDBCol>
-      </MDBRow> */}

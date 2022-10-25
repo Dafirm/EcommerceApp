@@ -12,6 +12,9 @@ import { setUser } from "./redux/slices/authSlice";
 import PrivateRoute from "./components/PrivateRoute";
 // import NewProduct from "./pages/NewProduct";
 import AddEditProduct from "./pages/AddEditProduct";
+import SingleProduct from "./pages/SingleProduct";
+import Checkout from "./components/Checkout";
+import Dashboard from "./pages/Dashboard";
 
 
 
@@ -20,7 +23,7 @@ function App() {
    const user = JSON.parse(localStorage.getItem("profile") || '{}');
    useEffect(() => {
      dispatch(setUser(user));
-   }, []);
+   }, [dispatch, user]);
 
   return (
     <div className="App">
@@ -31,7 +34,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Signup />} />
-          {/* <Route path="/addProduct" element={<AddEditProduct />} /> */}
+
           <Route
             path="/addProduct"
             element={
@@ -48,6 +51,17 @@ function App() {
               </PrivateRoute>
             }
           />
+          <Route
+            path="/dashbard"
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
+          <Route path="/products/:id" element={<SingleProduct />} />
+          <Route path="/checkout-page" element={<Checkout />} />
+     
         </Routes>
       </BrowserRouter>
     </div>

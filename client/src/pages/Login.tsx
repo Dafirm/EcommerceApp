@@ -154,7 +154,7 @@ const Login: React.FC<Props> = () => {
             )}
             onSuccess={googleSuccess}
             onFailure={() => {
-              console.log("Login Failed");
+        
             }}
           />
         </MDBCardBody>
