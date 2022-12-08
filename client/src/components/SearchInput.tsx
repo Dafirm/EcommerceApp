@@ -7,12 +7,8 @@ const SearchInput = () => {
   const dispatch = useAppDispatch();
 
   const SubmitHandler = (e: React.FormEvent<HTMLInputElement>) => {
-   
     const target = e?.target as HTMLInputElement;
-   
-
     dispatch(handleSearch(target.value));
-    console.log(target.value)
   };
 
   return (

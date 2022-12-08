@@ -8,10 +8,9 @@ export const StarRatings = () => {
         const ratingVal = i + 1;
        
         return (
-          <div key={i}>
+          <div key={Number(Math.random()).toString()}>
             <FaStar
               size={20}
-             
               color={ratingVal <= rating ? "#ffc107" : "#e4e5e9"}
             />
           </div>

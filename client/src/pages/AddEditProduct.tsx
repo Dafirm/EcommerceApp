@@ -29,7 +29,7 @@ const AddEditTour = () => {
     const [formValue, setFormValue] = useState(initialState);
 
   const { error } = useAppSelector((state: RootState) => ({
-    ...state.product,
+    ...state.products,
   }));
   const { title, description, size, price, categories, images } = formValue;
   const dispatch = useAppDispatch();
@@ -53,7 +53,7 @@ const AddEditTour = () => {
            toast,
            result: undefined,
            updatedProductData: undefined,
-           id: undefined
+           id:''
        })
      );
    }

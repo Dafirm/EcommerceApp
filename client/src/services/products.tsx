@@ -2,6 +2,7 @@ import axios from 'axios'
 import { NewProduct} from '../types'
 
 const ORIGIN = 'http://localhost:4000/api/v1'
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   getAll: async () => {
     try {
@@ -12,7 +13,7 @@ export default {
         status: response.status,
       };
     } catch (error) {
-      console.error("error =====:", error);
+      console.error("error ===:", error);
       return {
         data: null,
         status: 400,

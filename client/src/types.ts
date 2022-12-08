@@ -1,20 +1,20 @@
 export {};
 
-declare global {
-  interface Window {
-    cloudinary: any; // whatever type you want to give. (any,number,float etc)
-    gtag: (...args: any[]) => void;
-  }
-}
+// declare global {
+//   interface Window {
+//     cloudinary: any; // whatever type you want to give. (any,number,float etc)
+//     gtag: (...args: any[]) => void;
+//   }
+//}
 export type Product = {
   _id: string;
   title: string;
   images: string;
   description: string;
   categories: string;
-   
   sizes: string;
   price: string;
+  cartQuantity: number;
 };
 
 export type NewProduct = Partial<Product>;
@@ -51,16 +51,17 @@ export interface IGenericResponse {
   message: string;
 }
 
-export type Cart = {
-  description:string
-  title: string
-  images:string
-  categories:string
-  size: string
-  price:string
-};
+// export type Cart = {
+//   description:string
+//   title: string
+//   images:string
+//   categories:string
+//   size: string
+//   price:string
+// };
 
-export type ProductName = Pick<Product, "title">;
+export type ProductName = Partial<Product>;
+export type Cart = Pick<Product,'title' | 'images'>
 
 export type AddToCartAction = {
   type: string;

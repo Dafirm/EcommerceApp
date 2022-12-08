@@ -9,7 +9,7 @@ export const store = configureStore({
   reducer: {
     auth: AuthReducer,
     userState: userReducer,
-    product: productReducer,
+    products: productReducer,
     cart: cartReducer,
   },
   devTools: process.env.NODE_ENV === "development",

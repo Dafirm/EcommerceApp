@@ -9,7 +9,7 @@ export type ProductsProps = {
   toast: any;
   result: any;
   updatedProductData: any;
-  id: any;
+  id: string;
 };
 
 export const createProduct = createAsyncThunk(
@@ -43,7 +43,7 @@ export const findAll = createAsyncThunk(
 
 export const findById = createAsyncThunk(
   "product/findById",
-  async (id, { rejectWithValue }) => {
+  async (id:string, { rejectWithValue }) => {
     try {
       const response = await api.findById(id);
       return response.data;
@@ -94,14 +94,22 @@ export const updateProduct = createAsyncThunk(
     }
   }
 );
-
+const item = {
+      _id: "",
+  title: "",
+  description:"",
+  sizes:"",
+  images: "",
+  categories: "",
+  price: "",
+  }
 const productSlice = createSlice({
-  name: "item",
+  name: "products",
   initialState: {
-    item: {},
+    item ,
     items: [],
     userProducts: [],
-    filteredItems: [],
+
     searchedterms:"",
     error: "",
     loading: false,
@@ -112,22 +120,6 @@ const productSlice = createSlice({
     handleSearch: (state, action) => {
       const searchBy = action.payload.toLowerCase();
       state.searchedterms = searchBy
-      const searchedProducts = current(state).items.filter(
-        (item: any, index: number) => {
-          if (index > 3) {
-            const title = item.title.toLowerCase();
-
-            if (title.startsWith(searchBy)) {
-              // console.log(title, searchBy);
-              return item;
-            }
-            // return false;
-          }
-        }
-      );
-
-      state.filteredItems = searchedProducts;
-      console.log('check:',current(state).filteredItems);
     },
   },
   extraReducers(builder) {
@@ -164,6 +156,7 @@ const productSlice = createSlice({
     });
     builder.addCase(findById.rejected, (state) => {
       state.loading = false;
+      
       state.error = "something went wrong";
     });
 
@@ -184,7 +177,6 @@ const productSlice = createSlice({
     });
     builder.addCase(deleteProduct.fulfilled, (state, action) => {
       state.loading = false;
-      console.log("action", action);
       const {
         arg: { id },
       } = action.meta;

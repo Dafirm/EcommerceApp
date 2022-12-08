@@ -19,7 +19,7 @@ export const googleSignIn = (result: any) => API.post("/users/googleSignIn", res
 
 export const createProduct = (productData: any) => API.post("/products/", productData);
 export const findAll = () => API.get("/products");
-export const findById = (id: any) => API.get(`/products/${id}`);
+export const findById = (id: string) => API.get(`/products/${id}`);
 export const deleteProduct = (id: any) => API.delete(`/products/${id}`);
 export const updateProduct = (updatedProductData: any, id: any) =>
   API.patch(`/product/${id}`, updatedProductData);

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import "./App.css";
 import { ToastContainer } from "react-toastify";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route} from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
@@ -10,11 +10,14 @@ import Header from "./components/Header";
 import { useAppDispatch } from "./redux/hooks";
 import { setUser } from "./redux/slices/authSlice";
 import PrivateRoute from "./components/PrivateRoute";
-// import NewProduct from "./pages/NewProduct";
 import AddEditProduct from "./pages/AddEditProduct";
 import SingleProduct from "./pages/SingleProduct";
-import Checkout from "./components/Checkout";
+
 import Dashboard from "./pages/Dashboard";
+import NotFound from "components/NotFound";
+import Cart from "pages/Cart";
+import Footer from "components/Footer";
+import ResetPassword from "pages/ResetPassword";
 
 
 
@@ -31,9 +34,24 @@ function App() {
         <Header />
         <ToastContainer />
         <Routes>
-          <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Signup />} />
+          <Route path="/resetPassword" element={<ResetPassword />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/not-found" element={<NotFound />} />
+          <Route
+            path="/products/:id"
+            element={
+              <SingleProduct
+                images={""}
+                description={""}
+                title={""}
+                _id={""}
+                categories={""}
+                sizes={""}
+                price={""} cartQuantity={0}              />
+            }
+          />
 
           <Route
             path="/addProduct"
@@ -59,10 +77,10 @@ function App() {
               </PrivateRoute>
             }
           />
-          <Route path="/products/:id" element={<SingleProduct />} />
-          <Route path="/checkout-page" element={<Checkout />} />
-     
+
+          <Route path="/" element={<Home />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </div>
   );

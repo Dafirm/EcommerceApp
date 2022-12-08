@@ -1,80 +1,103 @@
 
+import CardProduct from 'components/CardProduct';
+import React, { useEffect } from 'react'
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { RootState } from 'redux/store';
+import { useParams, useNavigate } from "react-router-dom";
+import { findById } from 'redux/slices/productSlice';
+import { CardActions } from '@mui/material';
+import { Button, Card, Col } from 'react-bootstrap';
+import { addToCart, CartProduct } from 'redux/slices/cartSlice';
+import { title } from 'process';
+import { StarRatings } from 'components/StarRatings';
 
-// import React, { useEffect } from "react";
 
-// import { Button, Row, Col, Card } from "react-bootstrap";
-// import { useParams } from "react-router-dom";
-
-// import { findById } from "../redux/slices/productSlice";
-// import { RootState } from "../redux/store";
-// import { useAppDispatch, useAppSelector } from "../redux/hooks";
-// import { addToCart } from "../redux/slices/cartSlice";
-
-// const SingleProduct = () => {
-//   const dispatch = useAppDispatch();
-
-//    const {
-//      product: { items, error },
-//      cart,
-//    } = useAppSelector((state: RootState) => state);
-//    console.log("items:", items);
-
-//      const productItem = items.find((productItem: any) => productItem.title === id);
-
-//   const { id } = useParams<{ id: string }>();
-//   console.log("id:", id);
-
-//   useEffect(() => {
-//     if (id) {
-//       dispatch(findById());
-//     }
-//   }, [id]);
-
-//     const handleAddToCart = () => {
-//       dispatch(addToCart(Carts));
-//     };
-
-//     const handleGoBack = () => {
-//       // eslint-disable-next-line no-restricted-globals
-//       history.back();
-//     };
-
-//     const isInCart = cart.some(
-//       (newItem: any) => newItem.title === items.title
-//     );
-
-//   return (
-//     <div className="ProductDetails__container">
-//       <h1>{title} </h1>
-//       <div className="ProductDetails__Info">
-//         <img src={newItem.images} alt="flag" />
-//         <div>
-//           <h4>{newItem.description}</h4>
-//           <h4>This instrument belongs to the family of {newItem.categories}</h4>
-
-//           <h4>Size:{newItem.size}cm Weight : 5g</h4>
-//           <h4>{newItem.price}€</h4>
-
-//           <Card.Body>
-//             onClick={handleAddToCart} disabled={isInCart}
-//             <Button>ADD TO CART</Button>
-//             onClick={handleGoBack}
-//             <Button onClick={handleGoBack}>Home</Button>
-//           </Card.Body>
-//         </div>
-//       </div>
-//     </div>
-//   );
+// type CardProps = {
+//   images: string;
+//   description: string;
+//   title: string;
+//   _id: string;
+//   categories: string;
+//   sizes: string;
+//   price: string;
 // };
 
-// export default SingleProduct;
+const SingleProduct = (product: CartProduct) => {
+  const { item } = useAppSelector((state: RootState) => ({
+    ...state.products,
+  }));
+  const dispatch = useAppDispatch();
+  // useEffect(() => {
+  //  console.log(item);
+  // }, [item])
 
-import React from 'react'
+  const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
 
-const SingleProduct = () => {
+  // const product: any = items.find(
+  //   (queryProduct: any) => queryProduct._id === _id
+  // );
+
+  useEffect(() => {
+    id && dispatch(findById(id));
+  }, [dispatch, id]);
+
+  // const handleAddToCart = () => {
+  //   dispatch(addToCart(product));
+  // };
+
+  // const handleGoBack = () => {
+  //   navigate("/");
+  // };
+
   return (
-    <div>SingleProduct</div>
-  )
-}
+    <>
+      <Col style={{ flexGrow: "1" }} className="Products-preview" key="index">
+        <Card style={{ width: "25rem" }}>
+          <Card.Img
+            style={{ height: "15rem", objectFit: "contain" }}
+            variant="top"
+            src={item.images}
+            alt={item.title}
+          />
+          <Card.Body>
+            <Card.Title>{item.title}</Card.Title>
+            {/* <Card.Text>{item?.description}</Card.Text> */}
+            <Card.Text>Categories: {item.categories}</Card.Text>
+            <Card.Text>Size: {item.sizes}cm</Card.Text>
+            <Card.Text>{item.price}€</Card.Text>
+            <p>Reviews</p>
+
+            <Button
+              style={{ margin: "15px" }}
+              className="col-md-8"
+              variant="primary"
+              onClick={() => {
+                dispatch(addToCart(product));
+              }}
+            >
+              Add to cart
+            </Button>
+
+            <br />
+
+            <Button
+              style={{ margin: "15px" }}
+              className="col-md-8"
+              variant="primary"
+              href={`/`}
+            >
+              Home
+            </Button>
+            <div style={{ margin: "15px" }} className="col-md-8">
+              <StarRatings />
+            </div>
+            <h6>would you like to buy this product?</h6>
+          </Card.Body>
+        </Card>
+      </Col>
+    </>
+  );
+};
 
 export default SingleProduct

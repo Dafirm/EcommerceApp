@@ -26,9 +26,9 @@ export default function CardHeader() {
             objectFit: "contain",
           }}
         >
-          “The best cure for a ton of abandoned shopping carts? <br />
+          {/* “The best cure for a ton of abandoned shopping carts? <br />
           Four words: Free shipping. <br />
-          Free returns. <br /> Make your orders with zero worries
+          Free returns. <br /> Make your orders with zero worries */}
         </MDBCardText>
         <MDBCardText
           className="text_Header"
@@ -38,7 +38,7 @@ export default function CardHeader() {
             textDecoration: "underline",
           }}
         >
-          Enjoy the world of MUSIC
+          {/* Enjoy the world of MUSIC */}
         </MDBCardText>
       </MDBCardOverlay>
     </MDBCard>
