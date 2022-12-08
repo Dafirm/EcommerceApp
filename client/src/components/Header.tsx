@@ -71,11 +71,11 @@ const Header = () => {
         </MDBNavbarToggler>
 
         <MDBCollapse show={show} navbar>
-          <MDBNavbarItem style={{ margin: "0 auto" }}>
+          {/* <MDBNavbarItem style={{ margin: "0 auto" }}> */}
             <MDBNavbarLink>
-              <SearchInput />
-            </MDBNavbarLink>
-          </MDBNavbarItem>
+              <SearchInput/>
+            </MDBNavbarLink>  
+          {/* </MDBNavbarItem> */}
 
           <MDBNavbarNav right fullWidth={false} className="mb-2 mb-lg-0" style={{marginTop:"20px"}}>
             <MDBNavbarItem>

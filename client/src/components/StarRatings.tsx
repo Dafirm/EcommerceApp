@@ -2,6 +2,7 @@ import { FaStar } from "react-icons/fa";
 
 export const StarRatings = () => {
      const rating = ((Math.random() * 5) | 0) + 1;
+
   return (
     <div style={{ display: "flex" }}>
       {[...Array(5)].map((star, i) => {

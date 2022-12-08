@@ -64,7 +64,7 @@ const CartList = (product: CartProduct) => {
                   variant="primary"
                   color="red"
                   onClick={() => {
-                    dispatch(removeFromCart(product));
+                    dispatch(removeFromCart({_id:product._id}));
           
                   }}
                  
@@ -106,7 +106,7 @@ const CartList = (product: CartProduct) => {
                 variant="primary"
                 color="red"
                 onClick={() => {
-                  dispatch(emptyCart(item.productId));
+                  dispatch(removeFromCart({_id:item.productId, removeAll:true}));
                   
                 }}
               >

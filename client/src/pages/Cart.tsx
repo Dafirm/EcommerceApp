@@ -20,7 +20,7 @@ const Cart = () => {
         <EmptyCart />
       ) : (
         <div style={{ flexGrow: "1" }} className="Cart_List">
-          <CartList _id={""} title={""} images={""} description={""} categories={""} sizes={""} price={""} cartQuantity={0} />
+          <CartList _id={""} title={""} images={""} description={""} categories={""} sizes={""} price={""} cartQuantity={0} items={''} />
         </div>
       )}
     </section>

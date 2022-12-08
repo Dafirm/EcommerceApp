@@ -3,12 +3,7 @@ import{ Button, Col, Card }from "react-bootstrap";
 import { addToCart, CartProduct } from "../redux/slices/cartSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { RootState } from "../redux/store";
-import { useNavigate } from "react-router-dom";
 import {StarRatings} from './StarRatings';
-import { v4 as uuidv4 } from "uuid";
-import { useParams } from "react-router-dom";
-import { Product } from "types";
-import { toast } from "react-toastify";
 
 
 // type CardProps = {
@@ -28,19 +23,20 @@ const CardProduct = (product: CartProduct) => {
      
  
       const { images, description, title, _id, categories, sizes, price }=product;
-      // console.log(product)
+
+
      
+      
   return (
-    <Col style={{ flexGrow: "1" }} className="Products-preview" key="_id">
+    <Col style={{ flexGrow: "1" }} className="Products-preview">
       <Card style={{ width: "25rem" }}>
         <Card.Img
           style={{ height: "15rem", objectFit: "contain" }}
           variant="top"
           src={images}
           alt={title}
-         
         />
-        <Card.Body >
+        <Card.Body>
           <Card.Title>{title}</Card.Title>
           <Card.Text>{description}</Card.Text>
           <Card.Text>Categories: {categories}</Card.Text>
@@ -52,10 +48,10 @@ const CardProduct = (product: CartProduct) => {
             style={{ margin: "15px" }}
             className="col-md-8"
             variant="primary"
-             onClick={() => {
-              dispatch(
-                addToCart(product)
-              );}}
+            onClick={() => {
+              dispatch(addToCart(product));
+            }}
+            // disabled={isInCart}
           >
             Add to cart
           </Button>

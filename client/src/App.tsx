@@ -49,7 +49,7 @@ function App() {
                 _id={""}
                 categories={""}
                 sizes={""}
-                price={""} cartQuantity={0}              />
+                price={""} cartQuantity={0} items={''}              />
             }
           />
 
