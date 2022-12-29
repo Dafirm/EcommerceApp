@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   MDBNavbar,
   MDBContainer,
@@ -14,10 +14,12 @@ import { setLogout } from "../redux/slices/authSlice";
 import { RootState } from "../redux/store";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import SearchInput from './SearchInput';
-import { Link } from "react-router-dom";
 import "./Header.css";
-import CartList from "./CartList";
-import { FaShoppingBasket } from "react-icons/fa";
+import { getMemorizedNumItems } from "redux/slices/cartSlice";
+// import { selectItems } from "redux/slices/cartSlice";
+
+
+
 
 
 
@@ -27,18 +29,27 @@ const Header = () => {
   const [show, setShow] = useState(false);
  
   const dispatch = useAppDispatch();
-  
 
  
-  const { auth, cart } = useAppSelector((state:RootState) => state);
+  
+//  const { user } = useAppDispatch((state: RootState) => state.userState)
+ 
+  const { auth } = useAppSelector((state:RootState) => state);
+    const cart = useAppSelector((state: RootState) => state.cart);
   const user = auth.user;
-  const count = cart.count;
+    //  const Items = useAppSelector(selectItems);
+
+      const numItems = useAppSelector(getMemorizedNumItems);
+  
+
+
+
  const handleLogout = (e:any) => {
   e.preventDefault()
     dispatch(setLogout(user));
+    console.log('test:',user)
 
-  
-    
+
   };
   return (
     <MDBNavbar fixed="top" expand="lg" style={{ backgroundColor: "#000F03" }}>
@@ -72,12 +83,17 @@ const Header = () => {
 
         <MDBCollapse show={show} navbar>
           {/* <MDBNavbarItem style={{ margin: "0 auto" }}> */}
-            <MDBNavbarLink>
-              <SearchInput/>
-            </MDBNavbarLink>  
+          <MDBNavbarLink>
+            <SearchInput />
+          </MDBNavbarLink>
           {/* </MDBNavbarItem> */}
 
-          <MDBNavbarNav right fullWidth={false} className="mb-2 mb-lg-0" style={{marginTop:"20px"}}>
+          <MDBNavbarNav
+            right
+            fullWidth={false}
+            className="mb-2 mb-lg-0"
+            style={{ marginTop: "20px" }}
+          >
             <MDBNavbarItem>
               <MDBNavbarLink href="/">
                 <p
@@ -93,17 +109,15 @@ const Header = () => {
             </MDBNavbarItem>
 
             <MDBNavbarItem>
-              <MDBNavbarLink href="/addProduct">
-                <p
-                  style={{
-                    color: "#ffff",
-                    fontSize: "15px",
-                  }}
-                  className="header-text"
-                >
-                  Add Product
-                </p>
-              </MDBNavbarLink>
+              <p
+                style={{
+                  color: "#ffff",
+                  fontSize: "15px",
+                }}
+                className="header-text"
+              >
+                {/* {user?.email} */}
+              </p>
             </MDBNavbarItem>
             <MDBNavbarItem>
               <MDBNavbarLink href="/dashboard">
@@ -137,20 +151,28 @@ const Header = () => {
                 </MDBNavbarItem>
 
                 <MDBNavbarItem className="nav__items__cart">
-                  <MDBNavbarLink href="/cart" style={{position: "relative"}}>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      fill="white"
-                      className="bi bi-cart4"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
-                    </svg>
+                  <MDBNavbarLink href="/cart" style={{ position: "relative" }}>
+                    <span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        fill="white"
+                        className="bi bi-cart4"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
+                      </svg>
+                    </span>
+                    {/* &nbsp;&nbsp;{numItems ? numItems : "Cart"} */}
                     {/* <FaShoppingBasket size={20} color="#ffff" /> */}
                   </MDBNavbarLink>
-                  <p className="count_cart">{count}</p>
+                  <p className="count_cart">
+                    &nbsp;&nbsp;{numItems ? numItems : 0}
+                  </p>
+
+                  {/* <p className="count_cart"></p> */}
+                  {/* {Items.length} */}
                 </MDBNavbarItem>
               </>
             ) : (

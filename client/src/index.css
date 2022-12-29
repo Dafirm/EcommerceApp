@@ -1,4 +1,4 @@
-body {
+/* body {
   margin: 0;
   font-family: Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -6,6 +6,7 @@ body {
  background-color: "#000F03"; 
    
 }
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
@@ -45,4 +46,8 @@ code {
   margin-top: 5px;
   text-align: left;
   font-size: 14px;
-}
+} */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

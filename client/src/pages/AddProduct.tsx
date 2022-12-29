@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {  Row, Form, Button, Col, Alert } from "react-bootstrap";
+import {  Row, Form, Button, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { createProduct } from "../redux/slices/productSlice";
@@ -11,10 +11,11 @@ import {
   MDBInput,
   MDBValidation,
 } from "mdb-react-ui-kit";
-import './AddEditProduct.css'
+import './AddProduct.css'
 
 
 const initialState = {
+  _id:"",
   title: "",
   description: "",
   categories: "",
@@ -24,7 +25,7 @@ const initialState = {
 };
 
 
-const AddEditTour = () => {
+const AddProduct = () => {
 
     const [formValue, setFormValue] = useState(initialState);
 
@@ -53,7 +54,7 @@ const AddEditTour = () => {
            toast,
            result: undefined,
            updatedProductData: undefined,
-           id:''
+           _id:''
        })
      );
    }
@@ -195,5 +196,5 @@ const AddEditTour = () => {
   ); 
 };
 
-export default AddEditTour;
+export default AddProduct;
 

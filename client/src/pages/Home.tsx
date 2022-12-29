@@ -12,8 +12,9 @@ import { Product } from "types";
 import Slider from "components/Slider";
 
 const Home = () => {
+  // const products = useAppSelector((state:RootState) => ({...state.products.products}))
   const {
-    items: products,
+    products,
     loading,
     searchedterms,
   } = useAppSelector((state: RootState) => ({ ...state.products }));
@@ -28,6 +29,7 @@ const Home = () => {
   const filteredItems = products.filter(
     (val: Product) => val.title.toLowerCase().indexOf(searchedterms) >= 0
   );
+
 
   return (
     <div className="Home__CardHeader">
@@ -52,3 +54,7 @@ const Home = () => {
 };
 
 export default Home;
+// function toLowerCase() {
+//   throw new Error("Function not implemented.");
+// }
+

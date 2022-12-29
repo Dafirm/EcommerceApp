@@ -1,54 +1,101 @@
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { RootState } from "../redux/store";
-import {addToCart, CartProduct, emptyCart, removeFromCart } from "../redux/slices/cartSlice";
+// import { CartProduct, decreaseQuantity, incrementQuantity } from "../redux/slices/cartSlice";
 import { toast } from "react-toastify";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import "./CartList.css";
 import { Button, Card, Col } from "react-bootstrap";
 import { formatCurrency } from "utils/FormatPrice";
+import { Product } from "types";
+// import { removeFromCart } from "redux/slices/cartSlice";
 
 
-const CartList = (product: CartProduct) => {
-  const items = useAppSelector((state: RootState) => state.cart.items);
 
+const CartList = () => {
+  const items = useAppSelector((state: RootState) => state.cart);
+  const cart = useAppSelector((state: RootState) => state.cart);
   const dispatch = useAppDispatch();
 
-  // const { images, description, title, id, categories, sizes, price }=product;
+  const products = useAppSelector(
+    (state: RootState) => state.products.products
+  );
+  // const items = useAppSelector((state: RootState) => state.cart.items);
 
-  // const emptyCart = (_id: string) => {
-  //   dispatch(removeFromCart(product));
-  //   toast("Product removed from cart.");
+  // const handleDecreaseCart = (product: {
+  //   items: any;
+  //   _id: string;
+  //   title: string;
+  //   images: string;
+  //   description: string;
+  //   categories: string;
+  //   sizes: string;
+  //   price: string;
+  //   cartQuantity: number;
+  //   cartPrice: number;
+  // }) => {
+  //   dispatch(decreaseQuantity(product));
+  //   //navigate("/cart");
   // };
 
-  // const handleRemoveProduct = (id: string) => {
-  //   dispatch(removeFromCart(id));
+  // useEffect(() => {
+  //   dispatch(getTotals());
+  // }, [cart, dispatch]);
+
+  // const handleAddToCart = (product: {
+  //   items: any;
+  //   _id: string;
+  //   title: string;
+  //   images: string;
+  //   description: string;
+  //   categories: string;
+  //   sizes: string;
+  //   price: string;
+  //   cartQuantity: number;
+  //   cartPrice: number;
+  // }) => {
+  //   dispatch(addToCart(product));
+  //   //navigate("/cart");
   // };
 
-  const renderRows = (items: CartProduct[]) => {
-    return items?.map((item: any, i: number) => (
+  //  const handleRemoveFromCart = (product: {
+  //    items: any;
+  //    _id: string;
+  //    title: string;
+  //    images: string;
+  //    description: string;
+  //    categories: string;
+  //    sizes: string;
+  //    price: string;
+  //    cartQuantity: number;
+  //    cartPrice: number;
+  //  }) => {
+  //    dispatch(removeFromCart(product));
+  //    //navigate("/cart");
+  //  };
+
+  const renderRows = (items: Product[]) => {
+    return items?.map((item) => (
       <Col key={Number(Math.random()).toString()}>
-        {/* <td>{item?._id.substring(0, 8)}</td> */}
-
         <Card style={{ width: "30rem" }} className="h-100">
           <Card.Img
             style={{ height: "15rem", objectFit: "contain" }}
             variant="top"
-            src={item?.images}
-            alt={item?.title}
+            src={item.images}
+            alt={item.title}
           />
           <Card.Body className="d-flex flex-column">
             <Card.Title className="d-flex justify-content-between align-items-baseline mb-4">
-              <span className="fs-2"> {item?.title}</span>
+              <span className="fs-2"> {item.title}</span>
               <span className="ms-2 text-muted">
-                Price: {formatCurrency(item?.price)}
+                {/* Price: ${formatCurrency(item?.price * cart.cartQuantity)} */}
+                Price: ${(item?.price)}
               </span>
             </Card.Title>
             <Card.Title className="d-flex justify-content-between align-items-baseline mb-4">
-              <span>Size: {item?.sizes}cm </span>
-              <span>Category: {item?.categories}</span>
+              <span>Size: {item.sizes}cm </span>
+              <span>Category: {item.categories}</span>
             </Card.Title>
             <Card.Title className="d-flex justify-content-between align-items-baseline mb-4">
-              <span>{item?.description} </span>
+              <span>{item.description} </span>
             </Card.Title>
 
             <div
@@ -63,11 +110,7 @@ const CartList = (product: CartProduct) => {
                   className="w-100"
                   variant="primary"
                   color="red"
-                  onClick={() => {
-                    dispatch(removeFromCart({_id:product._id}));
-          
-                  }}
-                 
+                  // onClick={() => dispatch(decreaseQuantity(product))}
                 >
                   <div
                     className="fs-3 d-flex align-item-center justify-content-center"
@@ -83,8 +126,7 @@ const CartList = (product: CartProduct) => {
                   variant="primary"
                   color="red"
                   onClick={() => {
-                    dispatch(addToCart(product));
-                
+                    // dispatch(incrementQuantity(product));
                   }}
                 >
                   <div
@@ -101,14 +143,14 @@ const CartList = (product: CartProduct) => {
                   </div>
                 </Button>
               </div>
+              {/* <p className="count_cart">{cartQuantity}</p> */}
               <Button
                 className="w-100"
                 variant="primary"
                 color="red"
-                onClick={() => {
-                  dispatch(removeFromCart({_id:item.productId, removeAll:true}));
-                  
-                }}
+                // onClick={() => {
+                //   dispatch(removeFromCart(item._id));
+                // }}
               >
                 Remove item
               </Button>
@@ -119,8 +161,65 @@ const CartList = (product: CartProduct) => {
     ));
   };
 
-  return <Col className="Cart">{renderRows(items)}</Col>;
+  return <Col className="Cart">{renderRows(products)}</Col>;
 };
 export default CartList;
+
+
+
+// import { useAppDispatch, useAppSelector } from "../redux/hooks";
+// import { RootState } from "../redux/store";
+// // import { CartProduct, decreaseQuantity, incrementQuantity } from "../redux/slices/cartSlice";
+// import { toast } from "react-toastify";
+// import "./CartList.css";
+// import { Button, Card, Col } from "react-bootstrap";
+// import { formatCurrency } from "utils/FormatPrice";
+// import { Product } from "types";
+
+
+
+// const CartList = () => {
+//   const products = useAppSelector(
+//     (state) => state.products.products
+//   );
+//   const items = useAppSelector((state) => state.cart);
+  
+//  console.log("check:", items);
+
+//     return (
+//       <main>
+//         <h1>Shopping Cart</h1>
+//         <table>
+//           <thead>
+//             <tr>
+//               <th>Product</th>
+//               <th>Quantity</th>
+//               <th>Total</th>
+//               <th>Remove</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             {products.map(([_id, quantity]) => (
+//               <tr key={Number(Math.random()).toString()}>
+//                 console.log('check:', products[_id])
+//                 <td>
+//                   <span className="fs-2"> {products[_id]}</span>
+//                 </td>
+//                 <td>
+//                   <span className="fs-2"> {products[_id]}</span>
+//                 </td>
+              
+//               </tr>
+//             ))}
+//           </tbody>
+//         </table>
+//       </main>
+//     );
+// }
+
+
+// export default CartList;
+
+
 
 

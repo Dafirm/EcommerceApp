@@ -1,12 +1,7 @@
 export {};
 
-// declare global {
-//   interface Window {
-//     cloudinary: any; // whatever type you want to give. (any,number,float etc)
-//     gtag: (...args: any[]) => void;
-//   }
-//}
 export type Product = {
+  
   _id: string;
   title: string;
   images: string;
@@ -15,10 +10,22 @@ export type Product = {
   sizes: string;
   price: string;
   cartQuantity: number;
+ 
 };
+
+
 
 export type NewProduct = Partial<Product>;
 
+
+export type Order = {
+  product: any;
+  quantity: number;
+  _id: string;
+  total_price: number;
+  ownerId: string;
+  image: string;
+};
 
 export type User = {
   username: string
@@ -32,6 +39,12 @@ export type User = {
   getResetPasswordToken: any;
   message:any
 };
+
+export type authUser = {
+  userId: string;
+  admin: boolean;
+  id: string;
+} | null;
 
 export type NewUser = Partial<User>;
 

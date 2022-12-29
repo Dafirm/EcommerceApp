@@ -5,10 +5,8 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { RootState } from 'redux/store';
 import { useParams, useNavigate } from "react-router-dom";
 import { findById } from 'redux/slices/productSlice';
-import { CardActions } from '@mui/material';
 import { Button, Card, Col } from 'react-bootstrap';
-import { addToCart, CartProduct } from 'redux/slices/cartSlice';
-import { title } from 'process';
+import { addToCart } from 'redux/slices/cartSlice';
 import { StarRatings } from 'components/StarRatings';
 
 
@@ -22,7 +20,7 @@ import { StarRatings } from 'components/StarRatings';
 //   price: string;
 // };
 
-const SingleProduct = (product: CartProduct) => {
+const SingleProduct = () => {
   const { item } = useAppSelector((state: RootState) => ({
     ...state.products,
   }));
@@ -31,7 +29,7 @@ const SingleProduct = (product: CartProduct) => {
   //  console.log(item);
   // }, [item])
 
-  const navigate = useNavigate();
+  
   const { id } = useParams<{ id: string }>();
 
   // const product: any = items.find(
@@ -62,9 +60,9 @@ const SingleProduct = (product: CartProduct) => {
           />
           <Card.Body>
             <Card.Title>{item.title}</Card.Title>
-            {/* <Card.Text>{item?.description}</Card.Text> */}
-            <Card.Text>Categories: {item.categories}</Card.Text>
-            <Card.Text>Size: {item.sizes}cm</Card.Text>
+            <Card.Text>{item.description}</Card.Text>
+            <Card.Text>Categories: {item.category}</Card.Text>
+            <Card.Text>Size: {item.size}cm</Card.Text>
             <Card.Text>{item.price}€</Card.Text>
             <p>Reviews</p>
 
@@ -72,9 +70,9 @@ const SingleProduct = (product: CartProduct) => {
               style={{ margin: "15px" }}
               className="col-md-8"
               variant="primary"
-              onClick={() => {
-                dispatch(addToCart(product));
-              }}
+              // onClick={() => {
+              //   dispatch(addToCart(product));
+              // }}
             >
               Add to cart
             </Button>
