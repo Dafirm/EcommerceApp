@@ -1,5 +1,7 @@
 import {  createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { GiPreviousButton } from "react-icons/gi";
 import { toast } from "react-toastify";
+import { Product } from "types";
 import * as api from "../api";
 
 
@@ -11,11 +13,12 @@ export type ProductsProps = {
   updatedProductData?: any;
   _id?: string;
   data?: any;
-  product?: {} 
-    
+  product?: {};
+  products?: never[];
 };
 export type deleteProductsProps = {
   _id: string;
+  products: never[]
   toast?: any;
   navigate?: any;
 };
@@ -78,21 +81,26 @@ export const getProductsByUser = createAsyncThunk(
 
 export const deleteProduct = createAsyncThunk(
   "product/deleteProduct",
-  async ({ _id }: deleteProductsProps, { rejectWithValue }) => {
+  async ({ _id, products }: deleteProductsProps, { rejectWithValue }) => {
     try {
       const response = await api.deleteProduct(_id,);
       toast.success("Product Deleted Successfully");
+      return products.filter((val: Product) => val._id.toLowerCase().indexOf(_id) != 0)
     } catch (err: any) {
       return rejectWithValue(err.response.data);
     }
   }
 );
 
-export const updateProduct = createAsyncThunk                                                   (
+export const updateProduct = createAsyncThunk(
   "product/updateProduct",
   async ({ formValue, _id }: ProductsProps, { rejectWithValue }) => {
     try {
-      const response = await api.updateProduct( formValue, _id);
+      const response = await api.updateProduct(formValue, _id);
+      // filter for the product you wanna update const productss =[{id:1},{id:2, name: y}]
+      // make the updtae const updatedProduct = {id:2, name:x}
+      // slot the updated value back return and return it as payload 
+      // return [...products,updatedProduct]
       toast.success("Product Updated Successfully");
       return response.data;
     } catch (err: any) {
@@ -207,7 +215,7 @@ const productSlice = createSlice({
 
     builder.addCase(deleteProduct.fulfilled, (state, action) => {
       state.loading = false;
-      //state.products = action.payload;
+      state.products = action.payload;
  
       
     });

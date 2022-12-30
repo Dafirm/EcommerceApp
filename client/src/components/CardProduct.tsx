@@ -1,27 +1,13 @@
 
-import{ Button, Col, Card }from "react-bootstrap";
+import{ Col, Card }from "react-bootstrap";
 import { addToCart, CartProduct} from "../redux/slices/cartSlice";
 import { useAppDispatch, useAppSelector} from "../redux/hooks";
 import {StarRatings} from './StarRatings';
-// import { useNavigate } from "react-router-dom";
 import { RootState } from "redux/store";
-import { Product } from "types";
 
 
 
 
-
-
-
-// type CardProps = {
-//   images:string
-//   description: string
-//   title: string
-//   _id: any
-//   categories: string
-//   sizes: string
-//   price: string
-// };
 
 const CardProduct = (product:CartProduct) => {
 
@@ -32,7 +18,7 @@ const CardProduct = (product:CartProduct) => {
 
       //  const cartQuantity = cart.cartQuantity;
  
-      const { images, description, title, _id, categories, size, price }=product;
+      const { images, description, title, _id, category, size, price }=product;
 
 
 
@@ -51,10 +37,10 @@ const CardProduct = (product:CartProduct) => {
         />
         <Card.Body>
           <Card.Title>{title}</Card.Title>
-          <Card.Text>{description}</Card.Text>
-          <Card.Text>Categories: {categories}</Card.Text>
+          {/* <Card.Text>{description}</Card.Text> */}
+          <Card.Text>Category: {category}</Card.Text>
           <Card.Text>Size: {size}cm</Card.Text>
-          <Card.Text>{price}</Card.Text>
+          <Card.Text>{price}€</Card.Text>
           <p>Reviews</p>
 
           <div style={{ margin: " 5px" }}>

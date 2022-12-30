@@ -91,8 +91,8 @@ const CartList = () => {
               </span>
             </Card.Title>
             <Card.Title className="d-flex justify-content-between align-items-baseline mb-4">
-              <span>Size: {item.sizes}cm </span>
-              <span>Category: {item.categories}</span>
+              <span>Size: {item.size}cm </span>
+              <span>Category: {item.category}</span>
             </Card.Title>
             <Card.Title className="d-flex justify-content-between align-items-baseline mb-4">
               <span>{item.description} </span>

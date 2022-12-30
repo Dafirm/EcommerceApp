@@ -18,7 +18,7 @@ const initialState = {
   _id:"",
   title: "",
   description: "",
-  categories: "",
+  category: "",
   size: "",
   price: "",
   images: "",
@@ -32,7 +32,7 @@ const AddProduct = () => {
   const { error } = useAppSelector((state: RootState) => ({
     ...state.products,
   }));
-  const { title, description, size, price, categories, images } = formValue;
+  const { title, description, size, price, category, images } = formValue;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -43,10 +43,10 @@ const AddProduct = () => {
 
  const handleSubmit = (e: any) => {
    e.preventDefault();
-   if (!title || !description || !size || !price || !categories || !images ){
+   if (!title || !description || !size || !price || !category || !images ){
      return toast.error("Please fill out all the fields");
    }
-   if (title && description && size && price && categories && images) {
+   if (title && description && size && price && category && images) {
      dispatch(
        createProduct({
            formValue,
@@ -117,9 +117,9 @@ const AddProduct = () => {
                   <MDBInput
                     // label="Categories"
                     type="text"
-                    value={categories}
+                    value={category}
                     placeholder="Strings | Pipe | Pacussion"
-                    name="categories"
+                    name="category"
                     onChange={onInputChange}
                     required
                     // invalid

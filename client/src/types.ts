@@ -6,8 +6,8 @@ export type Product = {
   title: string;
   images: string;
   description: string;
-  categories: string;
-  sizes: string;
+  category: string;
+  size: string;
   price: string;
   cartQuantity: number;
  

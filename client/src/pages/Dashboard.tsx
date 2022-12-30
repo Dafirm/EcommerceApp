@@ -16,16 +16,10 @@ const Dashboard = () => {
     searchedterms,
   } = useAppSelector((state: RootState) => ({ ...state.products }));
   const dispatch = useAppDispatch();
-  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     dispatch(findAll());
   }, [dispatch]);
-
-  useEffect(() => {
-    refresh && dispatch(findAll());
-    if (refresh)setRefresh(prev=>false);
-  }, [dispatch,refresh]);
 
   if (loading) return <Spinner />;
 
@@ -58,10 +52,9 @@ const Dashboard = () => {
             ? filteredItems.map((product: any) => (
                 <AdminCardProduct
                   key={product._id}
-                  setRefresh={setRefresh}
-                  product={product}
+                  {...product}
                 />
-            
+            ))
             : ""}
         </div>
       </div>
