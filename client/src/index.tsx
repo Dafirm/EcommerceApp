@@ -7,15 +7,18 @@ import App from 'App';
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import { store } from 'redux/store';
 import 'index.css';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
+  <GoogleOAuthProvider clientId="399597833600-92lhi1lhbn2hvhrbaq435j3mnah7qrre.apps.googleusercontent.com">
     <Provider store={store}>
-        <App />
+      <App />
     </Provider>
+  </GoogleOAuthProvider>
   </React.StrictMode>
 );
 

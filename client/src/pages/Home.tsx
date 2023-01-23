@@ -1,6 +1,4 @@
 import { MDBTypography } from "mdb-react-ui-kit";
-// }
-import CardHeader from "../components/CardHeader";
 import { useEffect } from "react";
 
 import { findAll } from "../redux/slices/productSlice";
@@ -12,7 +10,6 @@ import { Product } from "types";
 import Slider from "components/Slider";
 
 const Home = () => {
-  // const products = useAppSelector((state:RootState) => ({...state.products.products}))
   const {
     products,
     loading,
@@ -54,7 +51,5 @@ const Home = () => {
 };
 
 export default Home;
-// function toLowerCase() {
-//   throw new Error("Function not implemented.");
-// }
+
 

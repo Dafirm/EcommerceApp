@@ -1,26 +1,27 @@
 import  { useEffect } from "react";
-import { Button, Col, Card } from "react-bootstrap";
-import { addToCart, CartProduct } from "../redux/slices/cartSlice";
+import {  Col, Card } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { StarRatings } from "./StarRatings";
 
 import { RootState } from "redux/store";
 
-import { useParams } from "react-router-dom";
-import { deleteProduct, handleDeleteProduct } from "redux/slices/productSlice";
+import { deleteProduct, } from "redux/slices/productSlice";
 import { toast } from "react-toastify";
 import { GiShoppingCart } from "react-icons/gi";
-import { MdOutlineDelete, MdAddShoppingCart } from "react-icons/md";
+import { MdOutlineDelete } from "react-icons/md";
 import { GrUpdate } from "react-icons/gr";
-import { updateProduct } from "redux/api";
+import { Product } from "types";
+import { formatCurrency } from "utils/FormatPrice";
+import { addToCart } from "redux/slices/cartSlice";
 
 
 
-const AdminCardProduct = ( product: CartProduct) => {
+
+const AdminCardProduct = ( product: Product) => {
   const products = useAppSelector((state:RootState) => state.products.products);
   const dispatch = useAppDispatch();
 
-  const { images, description, title, _id, category, size, price } = product;
+  const { images,  title, _id, category, size, price } = product;
   const { error } = useAppSelector((state: RootState) => ({
     ...state.products,
   }));
@@ -44,12 +45,12 @@ const AdminCardProduct = ( product: CartProduct) => {
           />
           <Card.Body>
             <Card.Title>{title}</Card.Title>
-            <Card.Text>
+            {/* <Card.Text>
               {description}
-            </Card.Text>
+            </Card.Text> */}
             <Card.Text>Category: {category}</Card.Text>
             <Card.Text>Size: {size}cm</Card.Text>
-            <Card.Text>{price}€</Card.Text>
+            <Card.Text>{formatCurrency(price)}€</Card.Text>
             <Card.Text>{_id}</Card.Text>
 
             <p>Reviews</p>
@@ -63,7 +64,7 @@ const AdminCardProduct = ( product: CartProduct) => {
             <div className="px-10 flex -mx-2 h-10  m-8">
               <button
                 onClick={() => {
-                  dispatch(addToCart(product._id));
+                  dispatch(addToCart(product));
                 }}
                 className=" px-20 right-5 top-5 relative rounded px-3 py-2.5 overflow-hidden group bg-blue-600 relative hover:bg-gradient-to-b hover:from-blue-500 hover:to-blue-500 text-white hover:ring-2 hover:ring-offset-2 hover:ring-blue-400 transition-all ease-out duration-200"
               >
@@ -76,10 +77,10 @@ const AdminCardProduct = ( product: CartProduct) => {
               <br />
 
               <button
-                // onClick={() => dispatch(handleDeleteProduct(product._id))}
+                
                 onClick={() => {
                   dispatch(deleteProduct({ _id: product._id, products }));
-                  // setRefresh((prev)=> !prev)
+                 
                 }}
                 className=" px-20 left-5 top-5 relative rounded px-3 py-2.5 overflow-hidden group bg-red-600 relative hover:bg-gradient-to-r hover:from-red-500 hover:to-red-500 text-white hover:ring-2 hover:ring-offset-2 hover:ring-red-400 transition-all ease-out duration-200"
               >
@@ -121,5 +122,8 @@ const AdminCardProduct = ( product: CartProduct) => {
 };
 
 export default AdminCardProduct;
+
+
+
 
 

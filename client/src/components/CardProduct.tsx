@@ -1,29 +1,34 @@
 
 import{ Col, Card }from "react-bootstrap";
-import { addToCart, CartProduct} from "../redux/slices/cartSlice";
+
 import { useAppDispatch, useAppSelector} from "../redux/hooks";
 import {StarRatings} from './StarRatings';
 import { RootState } from "redux/store";
+import { formatCurrency } from "utils/FormatPrice";
+import { Product } from "types";
+import { addToCart } from "redux/slices/cartSlice";
 
 
 
 
 
-const CardProduct = (product:CartProduct) => {
+const CardProduct = (product:Product) => {
 
  const cart = useAppSelector((state:RootState) => state.cart);
     const dispatch = useAppDispatch();
-
-       const products = useAppSelector((state: RootState) => state.products);
-
-      //  const cartQuantity = cart.cartQuantity;
- 
-      const { images, description, title, _id, category, size, price }=product;
+      
+      const { images,  title, _id, category, size, price }=product;
 
 
-
-    
-//  const addToCartHandler = (Product:Product) => dispatch(addToCart(products._id));
+  // const addItemToCart = () => {
+  //   const cartProduct = {
+  //     ...product,
+  //   };
+  //   dispatch(addToCart(cartProduct._id));
+  // };
+    // const addtoCartHandler = (id: string) => {
+    //   dispatch(addToCart(cart.cartItems));
+    // };
       
       
   return (
@@ -40,7 +45,7 @@ const CardProduct = (product:CartProduct) => {
           {/* <Card.Text>{description}</Card.Text> */}
           <Card.Text>Category: {category}</Card.Text>
           <Card.Text>Size: {size}cm</Card.Text>
-          <Card.Text>{price}€</Card.Text>
+          <Card.Text>{formatCurrency(price)}</Card.Text>
           <p>Reviews</p>
 
           <div style={{ margin: " 5px" }}>
@@ -64,8 +69,11 @@ const CardProduct = (product:CartProduct) => {
           <div className="px-10 flex -mx-2 h-10  m-8">
             <button
               onClick={() => {
-                dispatch(addToCart(product._id));
+                 dispatch(
+                   addToCart(product)
+                 );;
               }}
+              
               className=" px-20 right-5 top-5 relative rounded px-3 py-2.5 overflow-hidden group bg-blue-600 relative hover:bg-gradient-to-b hover:from-blue-500 hover:to-blue-500 text-white hover:ring-2 hover:ring-offset-2 hover:ring-blue-400 transition-all ease-out duration-200"
             >
               <span className="absolute right-0 w-6 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-10 group-hover:-translate-x-40 ease"></span>
@@ -132,6 +140,7 @@ const CardProduct = (product:CartProduct) => {
 };
 
 export default CardProduct
+
 
 
 

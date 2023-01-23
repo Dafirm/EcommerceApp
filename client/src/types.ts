@@ -1,16 +1,17 @@
 export {};
 
 export type Product = {
-  
   _id: string;
   title: string;
   images: string;
   description: string;
   category: string;
-  size: string;
-  price: string;
+  size: number;
+  price: number;
   cartQuantity: number;
- 
+
+  amount?:number;
+  
 };
 
 
@@ -28,17 +29,24 @@ export type Order = {
 };
 
 export type User = {
-  username: string
-  email: string;
-  image: string;
-  password: string;
-  isAdmin: boolean;
-  matchPasswords: (pw: string) => Promise<boolean>;
-  resetPasswordToken: undefined;
-  resetPasswordExpires: any;
-  getResetPasswordToken: any;
-  message:any
+  _id?: string;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  image?: string;
+  password?: string;
+  country?: "";
+  city?: "";
+  resetPasswordToken?: undefined;
+  resetPasswordExpires?: any;
+  getResetPasswordToken?: any;
+  message?: any;
 };
+
+export interface Decoded {
+  userInfo: User;
+  exp: number;
+}
 
 export type authUser = {
   userId: string;

@@ -1,21 +1,27 @@
-// import axios from "axios";
-// import authHeader from "../api";
+import axios, { AxiosRequestConfig } from 'axios'
+import { User } from 'type'
 
-// export const API_URL = "http://localhost:4000/api/v1/test/";
+const baseUrl = 'http://localhost:4000/api/v1/users'
 
-// export const getPublicContent = () => {
-//   return axios.get(API_URL + "all");
-// };
+const instance = axios.create({
+  baseURL: baseUrl
+})
 
-// export const getUserBoard = () => {
-//   return axios.get(API_URL + "user", { headers: authHeader() });
-// };
+instance.interceptors.request.use(function (config: AxiosRequestConfig) {
+  if(config.headers === undefined) config.headers = {}
+  else {
+    const token = localStorage.getItem('library-access-token')
+    config.headers['Authorization'] = `Bearer ${token}`
+  }
+  return config
+}, function (err) {
+  return Promise.reject(err)
+})
 
-// export const getModeratorBoard = () => {
-//   return axios.get(API_URL + "mod", { headers: authHeader() });
-// };
+export const updateUser = async (id: string, update: Partial<User>) => {
+  return await instance.put(`/${id}`, update)
+}
 
-// export const getAdminBoard = () => {
-//   return axios.get(API_URL + "admin", { headers: authHeader() });
-// };
-
+export const fetchUserById = async (id: string) => {
+  return await instance.get(`/${id}`)
+}

@@ -1,9 +1,8 @@
-import {  createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { GiPreviousButton } from "react-icons/gi";
 import { toast } from "react-toastify";
 import { Product } from "types";
 import * as api from "../api";
-
 
 export type ProductsProps = {
   formValue?: any;
@@ -18,7 +17,7 @@ export type ProductsProps = {
 };
 export type deleteProductsProps = {
   _id: string;
-  products: never[]
+  products: never[];
   toast?: any;
   navigate?: any;
 };
@@ -26,7 +25,7 @@ export type deleteProductsProps = {
 export const createProduct = createAsyncThunk(
   "product/createProduct",
   async (
-    { formValue, navigate, toast }:ProductsProps,
+    { formValue, navigate, toast }: ProductsProps,
     { rejectWithValue }
   ) => {
     try {
@@ -55,7 +54,7 @@ export const findAll = createAsyncThunk(
 
 export const findById = createAsyncThunk(
   "product/findById",
-  async (id:string, { rejectWithValue }) => {
+  async (id: string, { rejectWithValue }) => {
     try {
       const response = await api.findById(id);
       return response.data;
@@ -77,15 +76,15 @@ export const getProductsByUser = createAsyncThunk(
   }
 );
 
-
-
 export const deleteProduct = createAsyncThunk(
   "product/deleteProduct",
   async ({ _id, products }: deleteProductsProps, { rejectWithValue }) => {
     try {
-      const response = await api.deleteProduct(_id,);
+      const response = await api.deleteProduct(_id);
       toast.success("Product Deleted Successfully");
-      return products.filter((val: Product) => val._id.toLowerCase().indexOf(_id) != 0)
+      return products.filter(
+        (val: Product) => val._id.toLowerCase().indexOf(_id) != 0
+      );
     } catch (err: any) {
       return rejectWithValue(err.response.data);
     }
@@ -94,12 +93,13 @@ export const deleteProduct = createAsyncThunk(
 
 export const updateProduct = createAsyncThunk(
   "product/updateProduct",
-  async ({ formValue, _id }: ProductsProps, { rejectWithValue }) => {
+  async ({ formValue, _id, products }: ProductsProps, { rejectWithValue }) => {
     try {
       const response = await api.updateProduct(formValue, _id);
+    
       // filter for the product you wanna update const productss =[{id:1},{id:2, name: y}]
       // make the updtae const updatedProduct = {id:2, name:x}
-      // slot the updated value back return and return it as payload 
+      // slot the updated value back return and return it as payload
       // return [...products,updatedProduct]
       toast.success("Product Updated Successfully");
       return response.data;
@@ -107,34 +107,28 @@ export const updateProduct = createAsyncThunk(
       return rejectWithValue(err.response.data);
     }
   }
- );
-
-
-
-
+);
 
 const item = {
-      _id: "",
+  _id: "",
   title: "",
-  description:"",
-  size:"",
+  description: "",
+  size: "",
   images: "",
   category: "",
   price: "",
-  }
-
+};
 
 const productSlice = createSlice({
   name: "products",
   initialState: {
     item,
-    products:[],
+    products: [],
     userProducts: [],
     filteredItems: [],
     searchedterms: "",
     error: "",
     loading: false,
-    
   },
   reducers: {
     handleSearch: (state, action) => {
@@ -142,13 +136,12 @@ const productSlice = createSlice({
       state.searchedterms = searchBy;
     },
 
-    handleDeleteProduct: (state, action:PayloadAction<string>) => {
+    handleDeleteProduct: (state, action: PayloadAction<string>) => {
       state.products = state.products.filter(
         (product: { _id: any }) => product._id !== action.payload,
         console.log("idSlice:", action.payload)
       );
-
-     },
+    },
     // handleUpdateProduct: (state, action) => {
     //   state.products.map(item => {
     //     if(item.id == action.payload._id){
@@ -156,7 +149,6 @@ const productSlice = createSlice({
     //     }
     //   })
     // }
-    
   },
   extraReducers(builder) {
     builder.addCase(createProduct.pending, (state, action) => {
@@ -210,14 +202,22 @@ const productSlice = createSlice({
 
     builder.addCase(deleteProduct.pending, (state, action) => {
       state.loading = true;
-    
     });
 
     builder.addCase(deleteProduct.fulfilled, (state, action) => {
       state.loading = false;
       state.products = action.payload;
- 
-      
+      // state.products.filter(
+      //    (product: { _id: any }) => product._id !== action.payload);
+      //   const {
+      //     arg: { _id },
+      //   } = action.meta;
+      //   if (_id) {
+      //     state.userProducts = state.userProducts.filter(
+      //       (item: any) => item._id !== _id
+      //     );
+      //     state.products = state.products.filter((item: any) => item._id !== _id);
+      //   }
     });
     builder.addCase(deleteProduct.rejected, (state) => {
       state.loading = false;
@@ -226,12 +226,26 @@ const productSlice = createSlice({
 
     builder.addCase(updateProduct.pending, (state, action) => {
       state.loading = true;
-    })
+    });
     builder.addCase(updateProduct.fulfilled, (state, action) => {
       state.loading = false;
-      state.item = action.payload ;
+      state.item = action.payload;
     });
-  
+
+    //   console.log("action", action);
+    //   const {
+    //     arg: { id },
+    //   } = action.meta;
+    //   if (id) {
+    //     state.userProducts = state.userProducts.filter((item: any) =>
+    //       item._id ? action.payload : item
+    //     );
+    //     state.items = state.items.filter((item: any) =>
+    //       item._id == id ? action.payload : item
+    //     );
+    //   }
+    //
+
     builder.addCase(updateProduct.rejected, (state) => {
       state.loading = false;
       state.error = "something went wrong";
@@ -240,5 +254,3 @@ const productSlice = createSlice({
 });
 export const { handleSearch, handleDeleteProduct } = productSlice.actions;
 export default productSlice.reducer;
-
-

@@ -13,12 +13,16 @@ import {
 } from "mdb-react-ui-kit";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { googleSignIn, login } from "../redux/slices/authSlice";
+import {  googleSignIn, login } from "../redux/slices/authSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { RootState } from "../redux/store";
-import { GoogleLogin } from "react-google-login";
+import jwt_decode from "jwt-decode";
+import { GoogleLogin } from "@react-oauth/google";
+import { Decoded } from "types";
+import { UserInfo } from "os";
+import { setToken, setLoginStatus, setUserInfo } from "redux/slices/userSlice";
 
-// import { GoogleLogin } from "react-google-login";
+
 
 const initialState = {
   email: "",
@@ -56,20 +60,87 @@ const Login: React.FC<Props> = () => {
     setFormValue({ ...formValue, [name]: value });
   };
 
-   const googleSuccess = (resp:any) => {
+   const handleSuccess = (resp:any) => {
+   
      const email = resp?.profileObj?.email;
      const name = resp?.profileObj?.name;
-     const token = resp?.tokenId;
+     const token = resp?.profileObj?.data;
      const googleId = resp?.googleId;
      const result = { email, name, token, googleId };
-     dispatch(googleSignIn({
-       result, navigate, toast,
-       formValue: undefined
-     }));
+    
+
+     dispatch(
+       googleSignIn({
+         result,
+         navigate,
+         toast,
+         formValue: undefined,
+       })
+     );
+       
+ 
    };
-  //  const googleFailure = (error:any) => {
-  //    toast.error(error);
-  //  };
+
+
+
+   const googleFailure = (error:any) => {
+     toast.error(error);
+   };
+
+  // const handleSuccess = async (credentialResponse: CredentialResponse) => {
+  //   console.log(credentialResponse.credential);
+  //   const res = await axios.post(
+  //     "http://localhost:4000/api/v1/auth",
+  //     {},
+  //     {
+  //       headers: {
+  //         id_token: credentialResponse.credential as string,
+  //       },
+  //     }
+  //   );
+
+  //   const { token } = res.data;
+
+  //   localStorage.setItem("library-access-token", token);
+
+  //   const decoded = jwt_decode(token) as Decoded;
+  //   console.log("set login ", decoded);
+
+  //   if (decoded.userInfo) {
+  //     dispatch(setToken(token));
+  //     dispatch(setLoginStatus(true));
+  //     dispatch(setUserInfo(decoded.userInfo));
+  //   }
+
+  //   navigate("/");
+  // };
+
+    // const handleSuccess = async (response: any) => {
+    //   console.log("response:", response);
+
+    //   const res = await axios.post(
+    //     "http://localhost:4000/api/v1/auth",
+    //     {},
+    //     {
+    //       headers: {
+    //         id_token: response.credential,
+    //       },
+    //     }
+    //   );
+    //   const userToken = res.data.token;
+    //   localStorage.setItem("DafirmMusic-store-token", userToken);
+    //   setToken(userToken);
+    // };
+
+    //   useEffect(() => {
+    //     const storageToken = localStorage.getItem("candy-store-token") || "";
+    //     if (storageToken !== "") {
+    //       const decoded = jwt_decode(storageToken) as User;
+    //       dispatch(setUser(decoded));
+    //     }
+    //   }, [dispatch, setToken]);
+
+  
 
   return (
     <div
@@ -131,36 +202,11 @@ const Login: React.FC<Props> = () => {
               </div>
             </MDBValidation>
             <br />
-            {/* <GoogleLogin
-            clientId="399597833600-9pf3rq0ipmbq150518t8rh9ntj61i3lt.apps.googleusercontent.com"
-            render={(renderProps) => (
-              <MDBBtn
-                style={{ width: "100%" }}
-                color="danger"
-                onClick={renderProps.onClick}
-                disabled={renderProps.disabled}
-              >
-                <MDBIcon className="me-2" fab icon="google" /> Google Sign In
-              </MDBBtn>
-            )}
-            onSuccess={googleSuccess}
-            onFailure={googleFailure}
-            cookiePolicy="single_host_origin"
-          /> */}
             <GoogleLogin
-              clientId="399597833600-9pf3rq0ipmbq150518t8rh9ntj61i3lt.apps.googleusercontent.com"
-              render={(renderProps) => (
-                <MDBBtn
-                  style={{ width: "100%" }}
-                  color="danger"
-                  onClick={renderProps.onClick}
-                  disabled={renderProps.disabled}
-                >
-                  <MDBIcon className="me-2" fab icon="google" /> Google Sign In
-                </MDBBtn>
-              )}
-              onSuccess={googleSuccess}
-              onFailure={() => {}}
+              onSuccess={handleSuccess}
+              onError={() => {
+                console.log("Login Failed");
+              }}
             />
           </MDBCardBody>
           <MDBCardFooter>
@@ -178,4 +224,7 @@ const Login: React.FC<Props> = () => {
 };
 
 export default Login
+
+
+
 

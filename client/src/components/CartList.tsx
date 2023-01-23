@@ -1,79 +1,24 @@
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { RootState } from "../redux/store";
-// import { CartProduct, decreaseQuantity, incrementQuantity } from "../redux/slices/cartSlice";
 import { toast } from "react-toastify";
 import "./CartList.css";
 import { Button, Card, Col } from "react-bootstrap";
 import { formatCurrency } from "utils/FormatPrice";
 import { Product } from "types";
+import { removeFromCart,  selectCartQuantity,  selectGetTotalPrice, selectGetTotalQuantity, setDecreaseCartItems, setIncreaseCartItems } from "redux/slices/cartSlice";
+import { FaShoppingBasket } from "react-icons/fa";
+import { MdOutlineDelete } from "react-icons/md";
 // import { removeFromCart } from "redux/slices/cartSlice";
 
 
 
 const CartList = () => {
-  const items = useAppSelector((state: RootState) => state.cart);
-  const cart = useAppSelector((state: RootState) => state.cart);
   const dispatch = useAppDispatch();
 
-  const products = useAppSelector(
-    (state: RootState) => state.products.products
-  );
-  // const items = useAppSelector((state: RootState) => state.cart.items);
+  const carts = useAppSelector((state: RootState) => state.cart.cartItems);
 
-  // const handleDecreaseCart = (product: {
-  //   items: any;
-  //   _id: string;
-  //   title: string;
-  //   images: string;
-  //   description: string;
-  //   categories: string;
-  //   sizes: string;
-  //   price: string;
-  //   cartQuantity: number;
-  //   cartPrice: number;
-  // }) => {
-  //   dispatch(decreaseQuantity(product));
-  //   //navigate("/cart");
-  // };
-
-  // useEffect(() => {
-  //   dispatch(getTotals());
-  // }, [cart, dispatch]);
-
-  // const handleAddToCart = (product: {
-  //   items: any;
-  //   _id: string;
-  //   title: string;
-  //   images: string;
-  //   description: string;
-  //   categories: string;
-  //   sizes: string;
-  //   price: string;
-  //   cartQuantity: number;
-  //   cartPrice: number;
-  // }) => {
-  //   dispatch(addToCart(product));
-  //   //navigate("/cart");
-  // };
-
-  //  const handleRemoveFromCart = (product: {
-  //    items: any;
-  //    _id: string;
-  //    title: string;
-  //    images: string;
-  //    description: string;
-  //    categories: string;
-  //    sizes: string;
-  //    price: string;
-  //    cartQuantity: number;
-  //    cartPrice: number;
-  //  }) => {
-  //    dispatch(removeFromCart(product));
-  //    //navigate("/cart");
-  //  };
-
-  const renderRows = (items: Product[]) => {
-    return items?.map((item) => (
+  const renderRows = () => {
+    return carts?.map((item: any) => (
       <Col key={Number(Math.random()).toString()}>
         <Card style={{ width: "30rem" }} className="h-100">
           <Card.Img
@@ -82,35 +27,33 @@ const CartList = () => {
             src={item.images}
             alt={item.title}
           />
+
           <Card.Body className="d-flex flex-column">
             <Card.Title className="d-flex justify-content-between align-items-baseline mb-4">
               <span className="fs-2"> {item.title}</span>
-              <span className="ms-2 text-muted">
-                {/* Price: ${formatCurrency(item?.price * cart.cartQuantity)} */}
-                Price: ${(item?.price)}
-              </span>
             </Card.Title>
-            <Card.Title className="d-flex justify-content-between align-items-baseline mb-4">
+            <Card.Text className="d-flex justify-content-between align-items-baseline mb-4">
               <span>Size: {item.size}cm </span>
               <span>Category: {item.category}</span>
-            </Card.Title>
-            <Card.Title className="d-flex justify-content-between align-items-baseline mb-4">
-              <span>{item.description} </span>
-            </Card.Title>
+              <span className="ms-2 text-muted">
+                Price: {formatCurrency(item?.price)}
+              </span>
+            </Card.Text>
+            <Card.Text className="d-flex justify-content-between align-items-baseline mb-4 ">
+              {item.description}
+            </Card.Text>
 
             <div
               className="d-flex align-item-center flex-column"
               style={{ gap: ".7rem" }}
             >
               <div
-                className="d-flex align-item-center flex-row"
+                className=" left-25 d-flex align-item-center flex-row "
                 style={{ gap: ".6rem" }}
               >
-                <Button
+                {/* <button
                   className="w-100"
-                  variant="primary"
-                  color="red"
-                  // onClick={() => dispatch(decreaseQuantity(product))}
+                  onClick={() => dispatch(setDecreaseCartItems(item._id))}
                 >
                   <div
                     className="fs-3 d-flex align-item-center justify-content-center"
@@ -119,14 +62,30 @@ const CartList = () => {
                     <span style={{ fontSize: "12px" }}> cart </span>
                     <span style={{ fontSize: "16px" }}> - </span>
                   </div>
-                </Button>
+                </button> */}
 
-                <Button
+                <button
+                  onClick={() => dispatch(setDecreaseCartItems(item._id))}
+                  className=" px-20  top-5 relative rounded px-3 py-2.5 overflow-hidden group bg-blue-600 relative hover:bg-gradient-to-b hover:from-blue-500 hover:to-blue-500 text-white hover:ring-2 hover:ring-offset-2 hover:ring-blue-400 transition-all ease-out duration-200"
+                >
+                  <span className="absolute right-0 w-6 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-10 group-hover:-translate-x-40 ease"></span>
+                  <span style={{ fontSize: "12px" }}> cart </span>
+                  <span style={{ fontSize: "16px" }}> - </span>
+                </button>
+
+                <button className=" px-20  top-5 relative rounded px-3 py-2.5 overflow-hidden group bg-blue-600 relative hover:bg-gradient-to-b hover:from-blue-500 hover:to-blue-500 text-white hover:ring-2 hover:ring-offset-2 hover:ring-blue-400 transition-all ease-out duration-200">
+                  {/* <span className="absolute right-0 w-6 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-10 group-hover:-translate-x-40 ease"></span> */}
+                  <span style={{ fontSize: "12px" }}>
+                    {item.cartQuantity} <FaShoppingBasket />
+                  </span>
+                </button>
+
+                {/* <Button
                   className="w-100"
                   variant="primary"
                   color="red"
                   onClick={() => {
-                    // dispatch(incrementQuantity(product));
+                    dispatch(setIncreaseCartItems(item._id));
                   }}
                 >
                   <div
@@ -141,19 +100,35 @@ const CartList = () => {
                       <span style={{ fontSize: "16px" }}> + </span>
                     </div>
                   </div>
-                </Button>
+                </Button> */}
+
+                <button
+                  onClick={() => {
+                    dispatch(setIncreaseCartItems(item._id));
+                  }}
+                  className=" px-20 left-25 top-5 relative rounded px-3 py-2.5 overflow-hidden group bg-blue-600 relative hover:bg-gradient-to-b hover:from-blue-500 hover:to-blue-500 text-white hover:ring-2 hover:ring-offset-2 hover:ring-blue-400 transition-all ease-out duration-200"
+                >
+                  <span className="absolute right-0 w-6 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-10 group-hover:-translate-x-40 ease"></span>
+                  <span style={{ fontSize: "12px" }}> cart </span>
+                  <span style={{ fontSize: "16px" }}> + </span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    dispatch(removeFromCart(item._id));
+                  }}
+                  className=" px-25 left-25 top-5 relative rounded px-3 py-2 overflow-hidden group bg-blue-600 relative hover:bg-gradient-to-b hover:from-blue-500 hover:to-blue-500 text-white hover:ring-2 hover:ring-offset-2 hover:ring-blue-400 transition-all ease-out duration-200"
+                >
+                  {/* <span className="relative  w-4 h-30 -mt-4 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-10 group-hover:-translate-x-40 ease"></span> */}
+                  <span className="relative">
+                    <MdOutlineDelete size={20} color="#ffff" />
+                  </span>
+                </button>
+
+                <span className="ms-2 text-muted">
+                  {formatCurrency(item?.price * item.cartQuantity)}
+                </span>
               </div>
-              {/* <p className="count_cart">{cartQuantity}</p> */}
-              <Button
-                className="w-100"
-                variant="primary"
-                color="red"
-                // onClick={() => {
-                //   dispatch(removeFromCart(item._id));
-                // }}
-              >
-                Remove item
-              </Button>
             </div>
           </Card.Body>
         </Card>
@@ -161,65 +136,9 @@ const CartList = () => {
     ));
   };
 
-  return <Col className="Cart">{renderRows(products)}</Col>;
+  return <Col className="Cart">{renderRows()}</Col>;
 };
 export default CartList;
-
-
-
-// import { useAppDispatch, useAppSelector } from "../redux/hooks";
-// import { RootState } from "../redux/store";
-// // import { CartProduct, decreaseQuantity, incrementQuantity } from "../redux/slices/cartSlice";
-// import { toast } from "react-toastify";
-// import "./CartList.css";
-// import { Button, Card, Col } from "react-bootstrap";
-// import { formatCurrency } from "utils/FormatPrice";
-// import { Product } from "types";
-
-
-
-// const CartList = () => {
-//   const products = useAppSelector(
-//     (state) => state.products.products
-//   );
-//   const items = useAppSelector((state) => state.cart);
-  
-//  console.log("check:", items);
-
-//     return (
-//       <main>
-//         <h1>Shopping Cart</h1>
-//         <table>
-//           <thead>
-//             <tr>
-//               <th>Product</th>
-//               <th>Quantity</th>
-//               <th>Total</th>
-//               <th>Remove</th>
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {products.map(([_id, quantity]) => (
-//               <tr key={Number(Math.random()).toString()}>
-//                 console.log('check:', products[_id])
-//                 <td>
-//                   <span className="fs-2"> {products[_id]}</span>
-//                 </td>
-//                 <td>
-//                   <span className="fs-2"> {products[_id]}</span>
-//                 </td>
-              
-//               </tr>
-//             ))}
-//           </tbody>
-//         </table>
-//       </main>
-//     );
-// }
-
-
-// export default CartList;
-
 
 
 

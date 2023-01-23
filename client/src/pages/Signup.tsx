@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import { register } from "../redux/slices/authSlice";
 import { RootState } from "../redux/store";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import DropDownInterest from "components/DropDownInterest";
 
 
 const initialState = {
@@ -22,14 +23,16 @@ const initialState = {
   lastName: "",
   email: "",
   password: "",
+  country: "",
+  city: "",
+  
   confirmPassword: "",
 };
 
 const Signup = () => {
   const [formValue, setFormValue] = useState(initialState);
-  const [showRegister, setShowRegister] = useState(false)
   const { loading, error } = useAppSelector((state:RootState) => ({ ...state.auth }));
-  const { email, password, confirmPassword, lastName, firstName } = formValue;
+  const { email, password, confirmPassword, lastName, firstName, country, city} = formValue;
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -42,13 +45,15 @@ const Signup = () => {
     if (password !== confirmPassword) {
       return toast.error("Password should match");
     }
-    if (email && password && confirmPassword  && lastName && firstName) {
+    if (email && password && confirmPassword  && lastName && firstName && country && city ) {
       dispatch(register({
         formValue, navigate, toast,
         result: undefined
       }));
     }
   };
+
+   
   const onInputChange = (e:any) => {
     let { name, value } = e.target;
     setFormValue({ ...formValue, [name]: value });
@@ -74,12 +79,13 @@ const Signup = () => {
           <MDBCardBody>
             <MDBValidation
               onSubmit={handleSubmit}
+             
               noValidate
               className="row g-3"
             >
               <div className="col-md-6">
                 <MDBInput
-                  label="fistName"
+                  label="FirstName"
                   type="text"
                   value={firstName}
                   name="firstName"
@@ -127,7 +133,7 @@ const Signup = () => {
               </div>
               <div className="col-md-12">
                 <MDBInput
-                  label="Password Confirm"
+                  label="Confirm Password "
                   type="password"
                   value={confirmPassword}
                   name="confirmPassword"
@@ -136,6 +142,37 @@ const Signup = () => {
                   // invalid
                   // validation="Please provide confirm password"
                 />
+              </div>
+              <div className="col-md-6">
+                <MDBInput
+                  label="Country"
+                  type="text"
+                  value={country}
+                  name="country"
+                  onChange={onInputChange}
+                  required
+                />
+              </div>
+              <div className="col-md-6">
+                <MDBInput
+                  label="City"
+                  type="text"
+                  value={city}
+                  name="city"
+                  onChange={onInputChange}
+                  required
+                />
+              </div>
+              <div className="col-md-12">
+                {/* <MDBInput
+                  label="Input your music interest"
+                  type="text"
+                  value={interest}
+                  name="city"
+                  onChange={onInputChange}
+                  required
+                /> */}
+                {/* <DropDownInterest /> */}
               </div>
               <div className="col-12">
                 <MDBBtn style={{ width: "100%" }} className="mt-2">

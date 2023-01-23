@@ -1,53 +1,54 @@
-import { useAppDispatch, useAppSelector } from "redux/hooks";
-import { RootState } from "redux/store";
+// import { useAppSelector } from "redux/hooks";
+// import { RootState } from "redux/store";
 
-import EmptyCart from "components/EmptyCart";
-import CartList from "components/CartList";
-import { Button } from "react-bootstrap";
-// import { CartProduct, emptyCart } from "redux/slices/cartSlice";
+// import EmptyCart from "components/EmptyCart";
+// import CartList from "components/CartList";
+// import { Button } from "react-bootstrap";
 
-const Cart = () => {
-  const items = useAppSelector((state: RootState) => state.cart);
-  const dispatch = useAppDispatch();
 
-  const checkEmptyCart = () => {
-    return items.quantity === 0;
-  };
+// const Cart = () => {
+//   const carts = useAppSelector((state: RootState) => state.cart.cartItems);
+
+
+//   const checkEmptyCart = () => {
+//     // return items.quantity === 0;
+//     return carts.cartItems === 0;
+//   };
   
-  // const handleClearCart = () => {
-  //   dispatch(emptyCart(product));
-  // };
+//   // const handleClearCart = () => {
+//   //   dispatch(emptyCart(product));
+//   // };
 
-  return (
-    <section style={{ marginTop: "100px" }}>
-      <h4 style={{ marginTop: "180px", marginLeft: "40%" }}>
-        View your added items
-      </h4>
-      {checkEmptyCart() ? (
-        <EmptyCart />
-      ) : (
-        <div
-          className=" align-item-center flex-row"
-          style={{ gap: ".2rem", marginLeft: "40%" }}
-        >
-          <Button
-            className="fs-4"
-            variant="primary"
-            color="red"
-            onClick={() => {
-              // dispatch(emptyCart(product));
-            }}
-            //onClick={() => handleClearCart()}
-          >
-            <span style={{ fontSize: "18px" }}>Empty cart</span>
-          </Button>
-          <CartList />
-        </div>
-      )}
-    </section>
-  );
-};
-export default Cart;
+//   return (
+//     <section style={{ marginTop: "100px" }}>
+//       <h4 style={{ marginTop: "180px", marginLeft: "40%" }}>
+//         View your added items
+//       </h4>
+//       {checkEmptyCart() ? (
+//         <EmptyCart />
+//       ) : (
+//         <div
+//           className=" align-item-center flex-row"
+//           style={{ gap: ".2rem", marginLeft: "40%" }}
+//         >
+//           <Button
+//             className="fs-4"
+//             variant="primary"
+//             color="red"
+//             onClick={() => {
+//               // dispatch(emptyCart(product));
+//             }}
+//             //onClick={() => handleClearCart()}
+//           >
+//             <span style={{ fontSize: "18px" }}>Empty cart</span>
+//           </Button>
+//             <CartList/>
+//         </div>
+//       )}
+//     </section>
+//   );
+// };
+// export default Cart;
 
 
 
@@ -58,10 +59,11 @@ export default Cart;
 // import EmptyCart from "components/EmptyCart";
 // import CartList from "components/CartList";
 // import { Button } from "react-bootstrap";
-// import { CartProduct, emptyCart } from "redux/slices/cartSlice";
+// import { Product } from "types";
 
-// const Cart = (product: CartProduct) => {
-//   const items = useAppSelector((state: RootState) => state.cart.items);
+
+// const Cart = () => {
+//   const items = useAppSelector((state: RootState) => state.cart.cartItems);
 //   const dispatch = useAppDispatch();
 
 //   const checkEmptyCart = () => {
@@ -88,25 +90,13 @@ export default Cart;
 //             variant="primary"
 //             color="red"
 //             onClick={() => {
-//               dispatch(emptyCart(product));
+//               dispatch(EmptyCart());
 //             }}
 //             //onClick={() => handleClearCart()}
 //           >
 //             <span style={{ fontSize: "18px" }}>Empty cart</span>
 //           </Button>
-//           <CartList
-//             items={undefined}
-//             _id={""}
-//             title={""}
-//             images={""}
-//             description={""}
-//             categories={""}
-//             sizes={""}
-//             price={""}
-//             cartQuantity={0}
-//             quantity={0}
-//             cartPrice={0}
-//           />
+//           <CartList _id={""} title={""} images={""} description={""} category={""} size={0} price={0} cartQuantity={0}          />
 //         </div>
 //       )}
 //       ¨
@@ -167,71 +157,136 @@ export default Cart;
 
 
 
-/* eslint-disable no-underscore-dangle */
-// import { StarIcon } from '@heroicons/react/24/solid';
-// import Image from 'next/image';
-// import { addToCart, removeFromCart } from "redux/slices/cartSlice";
-// import { useDispatch } from 'react-redux';
-// import { Card } from "react-bootstrap";
 
 
+// import CartList from 'components/CartList'
 
-// type ProductProps = {
-//   product: {
-//     _id: string;
-//     title: string;
-//     images: string;
-//     description: string;
-//     categories: string;
-//     sizes: string;
-//     price: string;
-//     cartQuantity: number;
-//   };
-// };
 
-// function CheckoutProduct({ product }: ProductProps) {
-//   const dispatch = useDispatch();
-
-//   const addItemToCart = () => {
-//     const cartProduct = {
-//       ...product,
-      
-//     };
-//     dispatch(addToCart(cartProduct));
-//   };
-
-//   const removeItemFromCart = () => {
-//     dispatch(removeFromCart({ _id: product._id }));
-//   };
+// import "./Cart.css";
+// const Cart = () => {
+  
 //   return (
-//     <div className="grid grid-cols-5 shadow-md">
-//       <Card.Img
-//         style={{ height: "15rem", objectFit: "contain" }}
-//         variant="top"
-//         src={product.images}
-//         alt={product.title}
-//       />
-
-//       {/* Middle */}
-//       <div className="col-span-3 mx-5">
-//         <p>{product.title}</p>
-
-//         <p className="text-xs my-2 line-clamp-3">{product.description}</p>
-//         <p>{product.price}</p>
+//     <>
+//       <div className="cartScreen">
+//         <h2>Shopping Cart</h2>
+//         <CartList />
+        
 //       </div>
-//       <div className="flex flex-col space-y-2 my-auto justify-self-end">
-//         <button type="button" onClick={addItemToCart} className="button">
-//           Add to Cart
-//         </button>
-//         <button type="button" onClick={removeItemFromCart} className="button">
-//           Remove from Cart
-//         </button>
+//       <div className="cartScreen__right">
+//         <div className="cartScreen__info">
+//           <p>Subtotal (0) item</p>
+//           <p>€499.99</p>
+//         </div>
+//         <div className="bg-gray-50 inline-flex border border-gray-200 rounded-lg text-gray-900 select-none divide-x">
+//           {" "}
+//           <button >
+//             Proceed to checkout
+//           </button>{" "}
+       
+//         </div>
 //       </div>
-//     </div>
+//     </>
 //   );
 // }
 
-// export default CheckoutProduct;
+// export default Cart
 
 
 
+// import CartList from 'components/CartList';
+// import React from 'react'
+// import { useAppDispatch, useAppSelector } from "redux/hooks";
+// import { RootState } from 'redux/store'
+
+
+// const Cart = () => {
+//   const carts = useAppSelector((state: RootState) => state.cart.cartItems);
+//   return (
+//     <div>
+//       {carts.map((item: any) => {
+//         return <CartList _id={''} title={item.title} images={''} description={''} category={item.category} size={0} price={0} cartQuantity={0}/>
+//       })}
+//     </div>
+//   )
+// }
+
+// export default Cart
+
+
+import React, { useEffect } from "react";
+import "./Cart.css";
+import {
+
+  selectCartItems,
+  selectGetTotalPrice,
+  selectGetTotalQuantity,
+  setClearCartItems,
+  setGetTotals,
+} from "../redux/slices/cartSlice";
+
+import CartList from "../components/CartList";
+import { useAppDispatch, useAppSelector } from "redux/hooks";
+
+import { formatCurrency } from "utils/FormatPrice";
+import EmptyCart from "../components/EmptyCart";
+import CartCount from "components/CartCount";
+
+const Cart = () => {
+  const dispatch = useAppDispatch();
+  const cartItems = useAppSelector(selectCartItems);
+  const totalPrice = useAppSelector(selectGetTotalPrice);
+  const quantityItems = useAppSelector(selectGetTotalQuantity);
+
+  useEffect(() => {
+    dispatch(setGetTotals());
+  }, [cartItems, dispatch]);
+
+    const checkEmptyCart = () => {
+      return quantityItems === 0;
+    };
+
+
+    
+  return (
+    <>
+      <div className="cartScreen">
+        <div className="cartScreen__right">
+          <div className="cartScreen__info">
+            <p> You have {quantityItems} Product type in your cart</p>
+            <p>Subtotal for all products{formatCurrency(totalPrice)} </p>
+          </div>
+          <div className="bg-gray-50 inline-flex border border-gray-200 rounded-lg text-gray-900 select-none divide-x">
+            {" "}
+            <button>Proceed to checkout</button>
+          </div>
+          <div className="bg-gray-50 inline-flex border border-gray-200 rounded-lg text-gray-900 select-none divide-x">
+            {" "}
+            <button onClick={() => dispatch(setClearCartItems())}>
+              Clear Cart
+            </button>
+          </div>
+        </div>
+   
+      </div>
+      <div>
+        {checkEmptyCart() ? (
+          <EmptyCart />
+        ) : (
+          <div>
+            <div>
+              <CartList />
+            </div>
+          </div>
+        )}
+      </div>
+    </>
+  );
+};
+
+export default Cart;
+
+/* 
+
+ ${ifCartState ? 
+        'opacity-100 visible translate-x-0':'blur-effect-theme h-screen max-w-xl w-full absolute'}
+*/

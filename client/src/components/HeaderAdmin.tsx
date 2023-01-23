@@ -15,24 +15,29 @@ import { RootState } from "../redux/store";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import SearchInput from "./SearchInput";
 import "./Header.css";
+import { selectGetTotalQuantity } from "redux/slices/cartSlice";
+// import { addToCart, CartProduct } from "redux/slices/cartSlice";
 // import { selectItems } from "redux/slices/cartSlice";
-import { getMemorizedNumItems } from "redux/slices/cartSlice";
+// import { getMemorizedNumItems } from "redux/slices/cartSlice";
 
 const HeaderAdmin = () => {
   const [show, setShow] = useState(false);
 
   const dispatch = useAppDispatch();
 
-  const numItems = useAppSelector(getMemorizedNumItems);
+  // const numItems = useAppSelector(getMemorizedNumItems);
 
   const { auth } = useAppSelector((state: RootState) => state);
-  const cart = useAppSelector((state: RootState) => state.cart);
+  const carts = useAppSelector((state: RootState) => state.cart);
   const user = auth.user;
 
   const handleLogout = (e: any) => {
     e.preventDefault();
     dispatch(setLogout(user));
   };
+const quantityItems = useAppSelector(selectGetTotalQuantity);
+
+
   //  const Items = useAppSelector(selectItems);
   return (
     <MDBNavbar fixed="top" expand="lg" style={{ backgroundColor: "#000F03" }}>
@@ -153,7 +158,8 @@ const HeaderAdmin = () => {
                     {/* <FaShoppingBasket size={20} color="#ffff" /> */}
                   </MDBNavbarLink>
                   <p className="count_cart">
-                    &nbsp;&nbsp;{numItems ? numItems : 0}
+                    {/* &nbsp;&nbsp;{numItems ? numItems : 0} */}
+                    {quantityItems}
                   </p>
 
                   {/* <p className="count_cart"></p> */}

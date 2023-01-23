@@ -1,25 +1,23 @@
-
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import * as api from "../api";
+import { Decoded, User } from "../../types";
 
 export type LoginProps = {
-  formValue:any
-  navigate:any
-  toast:any
-  result:any
+  formValue: any;
+  navigate: any;
+  toast: any;
+  result?: any;
 };
-
-
 
 export const login = createAsyncThunk(
   "auth/login",
-  async ({ formValue, navigate, toast }:LoginProps, { rejectWithValue }) => {
+  async ({ formValue, navigate, toast }: LoginProps, { rejectWithValue }) => {
     try {
       const response = await api.signIn(formValue);
       toast.success("Login Successfully");
       navigate("/");
       return response.data;
-    } catch (err:any) {
+    } catch (err: any) {
       return rejectWithValue(err.response.data);
     }
   }
@@ -27,13 +25,13 @@ export const login = createAsyncThunk(
 
 export const register = createAsyncThunk(
   "auth/register",
-  async ({ formValue, navigate, toast }:LoginProps, { rejectWithValue }) => {
+  async ({ formValue, navigate, toast }: LoginProps, { rejectWithValue }) => {
     try {
       const response = await api.signUp(formValue);
       toast.success("Register Successfully");
       navigate("/");
       return response.data;
-    } catch (err:any) {
+    } catch (err: any) {
       return rejectWithValue(err.response.data);
     }
   }
@@ -41,23 +39,36 @@ export const register = createAsyncThunk(
 
 export const googleSignIn = createAsyncThunk(
   "auth/googleSignIn",
-  async ({ result, navigate, toast }:LoginProps, { rejectWithValue }) => {
+  async ({ result, navigate, toast }: LoginProps, { rejectWithValue }) => {
     try {
       const response = await api.googleSignIn(result);
       toast.success("Google Sign-in Successfully");
       navigate("/");
+       console.log("res:", result);
       return response.data;
-    } catch (err:any) {
+     
+    } catch (err: any) {
       return rejectWithValue(err.response.data);
     }
+    
   }
 );
-  
+const initUser = {
+  email: "",
+  firstName: "",
+  hash: "",
+  lastName: "",
+  country:"",
+  city:"",
 
+  salt: "",
+  __v: 0,
+  _id: "",
+};
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    user: {},
+    user: {result:initUser, token:""},
     error: "",
     loading: false,
     result: null,
@@ -68,7 +79,7 @@ const authSlice = createSlice({
     },
     setLogout: (state, action) => {
       localStorage.clear();
-      state.user = {};
+      state.user = { result: initUser, token: "" };
     },
   },
   extraReducers(builder) {
@@ -114,4 +125,3 @@ const authSlice = createSlice({
 export const { setUser, setLogout } = authSlice.actions;
 
 export default authSlice.reducer;
-

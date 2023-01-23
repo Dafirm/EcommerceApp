@@ -29,7 +29,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <HeaderAdmin />
+      <HeaderAdmin/>
       <div className="Home__CardHeader">
         <Slider />
 

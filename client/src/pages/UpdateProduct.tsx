@@ -20,6 +20,9 @@ const UpdateProduct = () => {
   const { error, item } = useAppSelector((state: RootState) => ({
     ...state.products,
   }));
+   const products = useAppSelector(
+     (state: RootState) => state.products.products
+   );
 
   // const { title, description, size, price, categories, images } = formValue;
   const dispatch = useAppDispatch();
@@ -74,7 +77,7 @@ const UpdateProduct = () => {
       ...formdata
     };
     setFormValue(()=> formdata);
-    dispatch(updateProduct({ formValue, _id: product._id }));
+    dispatch(updateProduct({ formValue, _id: product._id, products }));
   };
 
   return (

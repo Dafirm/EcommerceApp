@@ -15,8 +15,7 @@ import { RootState } from "../redux/store";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import SearchInput from './SearchInput';
 import "./Header.css";
-import { getMemorizedNumItems } from "redux/slices/cartSlice";
-// import { selectItems } from "redux/slices/cartSlice";
+import { selectCartItems } from "redux/slices/cartSlice";
 
 
 
@@ -27,29 +26,23 @@ import { getMemorizedNumItems } from "redux/slices/cartSlice";
 
 const Header = () => {
   const [show, setShow] = useState(false);
- 
+
   const dispatch = useAppDispatch();
 
- 
-  
-//  const { user } = useAppDispatch((state: RootState) => state.userState)
- 
-  const { auth } = useAppSelector((state:RootState) => state);
-    const cart = useAppSelector((state: RootState) => state.cart);
+
+
+  const { auth } = useAppSelector((state: RootState) => state);
+
   const user = auth.user;
-    //  const Items = useAppSelector(selectItems);
 
-      const numItems = useAppSelector(getMemorizedNumItems);
+ 
   
+const quantityItems = useAppSelector(selectCartItems);
 
-
-
- const handleLogout = (e:any) => {
-  e.preventDefault()
+  const handleLogout = (e: any) => {
+    e.preventDefault();
     dispatch(setLogout(user));
-    console.log('test:',user)
-
-
+   
   };
   return (
     <MDBNavbar fixed="top" expand="lg" style={{ backgroundColor: "#000F03" }}>
@@ -82,11 +75,9 @@ const Header = () => {
         </MDBNavbarToggler>
 
         <MDBCollapse show={show} navbar>
-          {/* <MDBNavbarItem style={{ margin: "0 auto" }}> */}
           <MDBNavbarLink>
             <SearchInput />
           </MDBNavbarLink>
-          {/* </MDBNavbarItem> */}
 
           <MDBNavbarNav
             right
@@ -115,9 +106,7 @@ const Header = () => {
                   fontSize: "15px",
                 }}
                 className="header-text"
-              >
-                {/* {user?.email} */}
-              </p>
+              ></p>
             </MDBNavbarItem>
             <MDBNavbarItem>
               <MDBNavbarLink href="/dashboard">
@@ -149,6 +138,21 @@ const Header = () => {
                     </p>
                   </MDBNavbarLink>
                 </MDBNavbarItem>
+                <MDBNavbarItem>
+                  <MDBNavbarLink href="/profile">
+                    <p
+                      style={{
+                        color: "#ffff",
+                        fontSize: "15px",
+                      }}
+                      className="header-text"
+                      onClick={handleLogout}
+                    >
+                      Hi {user?.result?.firstName}
+                      {/* Hi {user?.user?.firstName} */}
+                    </p>
+                  </MDBNavbarLink>
+                </MDBNavbarItem>
 
                 <MDBNavbarItem className="nav__items__cart">
                   <MDBNavbarLink href="/cart" style={{ position: "relative" }}>
@@ -167,12 +171,7 @@ const Header = () => {
                     {/* &nbsp;&nbsp;{numItems ? numItems : "Cart"} */}
                     {/* <FaShoppingBasket size={20} color="#ffff" /> */}
                   </MDBNavbarLink>
-                  <p className="count_cart">
-                    &nbsp;&nbsp;{numItems ? numItems : 0}
-                  </p>
-
-                  {/* <p className="count_cart"></p> */}
-                  {/* {Items.length} */}
+                  <p className="count_cart">{quantityItems.length}</p>
                 </MDBNavbarItem>
               </>
             ) : (

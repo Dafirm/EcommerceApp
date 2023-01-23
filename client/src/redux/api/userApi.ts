@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setUser } from "../slices/userSlice";
-import { IUser } from "types";
+import {  User } from "types";
 
 const BASE_URL = "http://localhost:4000/api/v1/users";
 
@@ -11,14 +11,14 @@ export const userApi = createApi({
   }),
   tagTypes: ["User"],
   endpoints: (builder) => ({
-    getMe: builder.query<IUser, null>({
+    getMe: builder.query<User, null>({
       query() {
         return {
           url: "me",
           credentials: "include",
         };
       },
-      transformResponse: (result: { data: { user: IUser } }) =>
+      transformResponse: (result: { data: { user: User } }) =>
         result.data.user,
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
