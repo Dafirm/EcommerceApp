@@ -1,5 +1,4 @@
 
-// import { GoogleLogin } from "@react-oauth/google";
 import { useState, useEffect } from "react";
 import {
   MDBCard,
@@ -16,12 +15,7 @@ import { toast } from "react-toastify";
 import {  googleSignIn, login } from "../redux/slices/authSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { RootState } from "../redux/store";
-import jwt_decode from "jwt-decode";
 import { GoogleLogin } from "@react-oauth/google";
-import { Decoded } from "types";
-import { UserInfo } from "os";
-import { setToken, setLoginStatus, setUserInfo } from "redux/slices/userSlice";
-
 
 
 const initialState = {
@@ -81,66 +75,6 @@ const Login: React.FC<Props> = () => {
  
    };
 
-
-
-   const googleFailure = (error:any) => {
-     toast.error(error);
-   };
-
-  // const handleSuccess = async (credentialResponse: CredentialResponse) => {
-  //   console.log(credentialResponse.credential);
-  //   const res = await axios.post(
-  //     "http://localhost:4000/api/v1/auth",
-  //     {},
-  //     {
-  //       headers: {
-  //         id_token: credentialResponse.credential as string,
-  //       },
-  //     }
-  //   );
-
-  //   const { token } = res.data;
-
-  //   localStorage.setItem("library-access-token", token);
-
-  //   const decoded = jwt_decode(token) as Decoded;
-  //   console.log("set login ", decoded);
-
-  //   if (decoded.userInfo) {
-  //     dispatch(setToken(token));
-  //     dispatch(setLoginStatus(true));
-  //     dispatch(setUserInfo(decoded.userInfo));
-  //   }
-
-  //   navigate("/");
-  // };
-
-    // const handleSuccess = async (response: any) => {
-    //   console.log("response:", response);
-
-    //   const res = await axios.post(
-    //     "http://localhost:4000/api/v1/auth",
-    //     {},
-    //     {
-    //       headers: {
-    //         id_token: response.credential,
-    //       },
-    //     }
-    //   );
-    //   const userToken = res.data.token;
-    //   localStorage.setItem("DafirmMusic-store-token", userToken);
-    //   setToken(userToken);
-    // };
-
-    //   useEffect(() => {
-    //     const storageToken = localStorage.getItem("candy-store-token") || "";
-    //     if (storageToken !== "") {
-    //       const decoded = jwt_decode(storageToken) as User;
-    //       dispatch(setUser(decoded));
-    //     }
-    //   }, [dispatch, setToken]);
-
-  
 
   return (
     <div

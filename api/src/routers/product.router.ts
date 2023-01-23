@@ -19,7 +19,7 @@ router.post('/', auth, createProduct)
 router.get('/', findAll)
 router.get('/:id', findById)
 router.get('/userProducts/:id', getProductsByUser)
-router.patch('/:id', updateProduct)
+router.put('/:id', updateProduct)
 router.delete('/:id', deleteProduct)
 
 export default router

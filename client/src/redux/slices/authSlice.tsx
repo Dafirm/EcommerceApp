@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import * as api from "../api";
-import { Decoded, User } from "../../types";
+
 
 export type LoginProps = {
   formValue: any;

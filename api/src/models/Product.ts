@@ -4,14 +4,11 @@ export type ProductDocument = Document & {
   title: string
   images: string
   description: string
-  categories: string
-  size: string
-  price: string
-  creator:string
-  shopCount: {
-    type: number
-  }
-  
+  category: string
+  size: number
+  price: number
+  creator: string
+  shopCount: number
 }
 
 const productSchema = new mongoose.Schema({
@@ -24,16 +21,26 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  
-  categories: {
-    type:String,
+  shopCount: {
+    type: Number,
+  },
+
+  category: {
+    type: String,
+    required: true,
+  },
+  creator: String,
+
+  price: {
+    type: Number,
     required: true,
   },
 
-  size: String,
-  creator: String,
-
-  price: String,
+  size: {
+    type: Number,
+    required: true,
+  },
+  description: String,
 })
 
 export default mongoose.model<ProductDocument>('Product', productSchema)

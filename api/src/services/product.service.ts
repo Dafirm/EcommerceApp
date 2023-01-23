@@ -7,9 +7,10 @@ const create = async (product: ProductDocument): Promise<ProductDocument> => {
 
 const findById = async (id: string): Promise<ProductDocument> => {
   const foundProduct = await Product.findById(id)
+  console.log('api:', id)
 
   if (!foundProduct) {
-    throw new NotFoundError(`Movie ${id} not found`)
+    throw new NotFoundError(`Product ${id} not found`)
   }
 
   return foundProduct
@@ -34,9 +35,7 @@ const update = async (
   return foundProduct
 }
 
-const deleteProduct = async (
-  id: string
-): Promise<ProductDocument | null> => {
+const deleteProduct = async (id: string): Promise<ProductDocument | null> => {
   const foundProduct = Product.findByIdAndDelete(id)
 
   if (!foundProduct) {

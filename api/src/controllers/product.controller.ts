@@ -11,26 +11,18 @@ export const createProduct = async (
   next: NextFunction
 ) => {
   try {
-    const {
-      title,
-      images,
-      description,
-      categories,
-      size,
-      price,
-      shopCount,
-      creator,
-    } = req.body
+    const { title, images, description, category, size, price, shopCount } =
+      req.body
 
     const product = new Product({
       title,
       images,
       description,
-      categories,
+      category,
       size,
       price,
       shopCount,
-      creator: req.user,
+      // creator: req.user,
     })
 
     await productService.create(product)
@@ -51,7 +43,7 @@ export const findAll = async (
   next: NextFunction
 ) => {
   try {
-      const products = await productService.findAll();
+    const products = await productService.findAll()
 
     res.json(products)
   } catch (error) {
@@ -71,7 +63,7 @@ export const findById = async (
 ) => {
   try {
     res.json(await productService.findById(req.params.id))
-  } catch (error:any) {
+  } catch (error: any) {
     if (error instanceof Error && error.name == 'ValidationError') {
       next(new BadRequestError('Invalid Request', 400, error))
     } else {
@@ -83,28 +75,40 @@ export const findById = async (
 export const getProductsByUser = async (req: Request, res: Response) => {
   const { id } = req.params
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ message: "User doesn't exist" })
+    return res.status(404).json({ message: 'User doesn\'t exist' })
   }
   const userProducts = await Product.find({ creator: id })
   res.status(200).json(userProducts)
 }
 
 // PUT /products/:productId
-export const updateProduct = async (req:Request, res:Response) => {
-  const { id }:any = req.params
-  const { title, description, categories, image, tags, shoptCount, size, price, shopCount } = req.body
+export const updateProduct = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { id }: any = req.params
+  const { title, description, category, images, tags, size, price } = req.body
   try {
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(404).json({ message: `No tour exist with id: ${id}` })
+      return res
+        .status(404)
+        .json({ message: `No product exist with id: ${id}` })
     }
 
     const updatedProduct = {
-      title, description, categories, image, tags, shoptCount, size, price, shopCount,
+      title,
+      description,
+      category,
+      images,
+      tags,
+      size,
+      price,
       _id: id,
     }
     await Product.findByIdAndUpdate(id, updatedProduct, { new: true })
     res.json(updatedProduct)
-  } catch (error:any) {
+  } catch (error: any) {
     if (error instanceof Error && error.name == 'ValidationError') {
       next(new BadRequestError('Invalid Request', 400, error))
     } else {
@@ -112,7 +116,6 @@ export const updateProduct = async (req:Request, res:Response) => {
     }
   }
 }
-
 
 // DELETE /products/:productId
 export const deleteProduct = async (
@@ -122,7 +125,7 @@ export const deleteProduct = async (
 ) => {
   try {
     await productService.deleteProduct(req.params.id)
-    res.status(200).json({message: 'Product seleted'})
+    res.status(200).json({ message: 'Product seleted' })
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
       next(new BadRequestError('Invalid Request', 400, error))
@@ -131,7 +134,3 @@ export const deleteProduct = async (
     }
   }
 }
-function next(arg0: BadRequestError) {
-  throw new Error('Function not implemented.')
-}
-

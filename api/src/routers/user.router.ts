@@ -1,11 +1,11 @@
-
-
 import express from 'express'
 
-import { NextFunction } from "express"
-
-
-import { signup, signin, googleSignIn } from '../controllers/user.controller'
+import {
+  signup,
+  signin,
+  googleSignIn,
+  findAll,
+} from '../controllers/user.controller'
 
 const router = express.Router()
 
@@ -13,9 +13,8 @@ const router = express.Router()
 router.post('/signup', signup)
 router.post('/signin', signin)
 router.post('/googleSignIn', googleSignIn)
-// router.get('/', findAll)
+router.get('/', findAll)
 // router.get('/:profile',findById )
-// 
+//
 
 export default router
-

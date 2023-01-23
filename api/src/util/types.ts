@@ -17,3 +17,9 @@ export interface ParsedToken {
 export interface VerifiedCallback {
   (error: any, user?: any, info?: any): void
 }
+
+export interface UserEntry {
+  firstName: string
+  lastName: string
+  email: string
+}
